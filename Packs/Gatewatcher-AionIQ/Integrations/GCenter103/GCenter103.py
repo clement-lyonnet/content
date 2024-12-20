@@ -302,6 +302,49 @@ def test_module(client: GwClient) -> str:  # noqa: E501
     else:
         return "Authentication error, please check ip/user/password/token: [ERROR]"
 
+
+def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    """
+               params={
+                "page_size": self.command_args.get("alert_count"),
+                "risk_min": self.command_args.get("risk_min"),
+                "risk_max": self.command_args.get("risk_max"),
+                "date_from": self.command_args.get("date_from"),
+                "date_to": self.command_args.get("date_to"),
+                "src_ip": cast_args(self.command_args.get("src_ip")),
+                "dest_ip": cast_args(self.command_args.get("dst_ip")),
+                "hostname": self.command_args.get("hostname"),
+                "tag": cast_args(self.command_args.get("included_tags")),
+                "excluded_tags": cast_args(self.command_args.get("excluded_tags")),
+                "state": cast_args(self.command_args.get("state")),
+                "type": cast_args(self.command_args.get("type")),
+                "mitre_tactic_name": self.command_args.get("mitre_tactic"),
+            },
+    - Faire un Requests.get avec params de la CLI
+    """   
+
+    params = {
+        "date_from": args.get("date_from"),
+        "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "ids": args.get("ids"),
+        "excluded_ids": args.get("excluded_ids"),
+        "acknowledged": args.get("acknowledged"),
+        "": args.get(""),
+        "page_size": args.get(""),
+        "risk_min": args.get("")
+    }
+    
+    return CommandResults(
+       readable_output="# test",
+       outputs_prefix="test",
+       outputs_key_field="t",
+       outputs={"key": "value"},
+       raw_response="{\"key\": \"value\"}"
+   ) 
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -817,7 +860,7 @@ def main() -> None:
 
     params = demisto.params()
     command = demisto.command()
-    demisto.args()
+    args = demisto.args()
 
     ip = params.get("ip")
     token = params.get("token", None)
@@ -842,6 +885,14 @@ def main() -> None:
             return_results( # noqa: F405
                 fetch_incidents()
             ) 
+        elif command == "gcenter103-alerts-list":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_alerts_list(
+                    client=client,
+                    args=args)
+            ) 
+
     except Exception as e:
         return_error( # noqa: F405
             f"Failed to execute {command} command.\nError: {str(e)}"

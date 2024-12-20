@@ -91,5 +91,13 @@ script:
   subtype: python3
   dockerimage: demisto/python3:3.10.14.91134
   isfetch: true
+  commands:
+  - name: gcenter103-alerts-list
+    description: List all alerts
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
