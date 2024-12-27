@@ -305,43 +305,42 @@ def test_module(client: GwClient) -> str:  # noqa: E501
 
 def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
-    """
-               params={
-                "page_size": self.command_args.get("alert_count"),
-                "risk_min": self.command_args.get("risk_min"),
-                "risk_max": self.command_args.get("risk_max"),
-                "date_from": self.command_args.get("date_from"),
-                "date_to": self.command_args.get("date_to"),
-                "src_ip": cast_args(self.command_args.get("src_ip")),
-                "dest_ip": cast_args(self.command_args.get("dst_ip")),
-                "hostname": self.command_args.get("hostname"),
-                "tag": cast_args(self.command_args.get("included_tags")),
-                "excluded_tags": cast_args(self.command_args.get("excluded_tags")),
-                "state": cast_args(self.command_args.get("state")),
-                "type": cast_args(self.command_args.get("type")),
-                "mitre_tactic_name": self.command_args.get("mitre_tactic"),
-            },
-    - Faire un Requests.get avec params de la CLI
-    """   
-
     params = {
+        "page_size": args.get("page_size"),
+        "risk_min": args.get("risk_min"),
+        "risk_max": args.get("risk_max"),
         "date_from": args.get("date_from"),
         "date_to": args.get("date_to"),
-        "since": args.get("since"),
-        "ids": args.get("ids"),
-        "excluded_ids": args.get("excluded_ids"),
-        "acknowledged": args.get("acknowledged"),
-        "": args.get(""),
-        "page_size": args.get(""),
-        "risk_min": args.get("")
+        "src_ip": args.get("src_ip"),
+        "dest_ip": args.get("dest_ip"),
+        "hostname": args.get("hostname"),
+        "tag": args.get("tag"),
+        "excluded_tags": args.get("excluded_tags"),
+        "state": args.get("state"),
+        "type": args.get("type"),
+        "mitre_tactic_name": args.get("mitre_tactic_name"),
+        "type": args.get("type")
     }
-    
+
+    if "help" in args:
+        md = tableToMarkdown("Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Alerts.List",
+           outputs_key_field='',
+           outputs=md
+       ) 
+        
+    req = client._get(endpoint="/api/v1/alerts/", params=params)
+    res = req.json()
+    md = tableToMarkdown("Alerts", res['results'])
+
     return CommandResults(
-       readable_output="# test",
-       outputs_prefix="test",
-       outputs_key_field="t",
-       outputs={"key": "value"},
-       raw_response="{\"key\": \"value\"}"
+       readable_output=md,
+       outputs_prefix="Alerts.List",
+       outputs_key_field='',
+       outputs=md
    ) 
 
 
