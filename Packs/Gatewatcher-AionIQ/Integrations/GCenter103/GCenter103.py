@@ -306,23 +306,78 @@ def test_module(client: GwClient) -> str:  # noqa: E501
 def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "page_size": args.get("page_size"),
-        "risk_min": args.get("risk_min"),
-        "risk_max": args.get("risk_max"),
         "date_from": args.get("date_from"),
         "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "ids": args.get("ids"),
+        "excluded_ids": args.get("excluded_ids"),
+        "acknowledged": args.get("acknowledged"),
+        "gcap_id": args.get("gcap_id"),
+        "ip": args.get("ip"),
         "src_ip": args.get("src_ip"),
         "dest_ip": args.get("dest_ip"),
-        "hostname": args.get("hostname"),
+        "risk_min": args.get("risk_min"),
+        "risk_max": args.get("risk_max"),
+        "name": args.get("name"),
+        "description": args.get("description"),
         "tag": args.get("tag"),
+        "no_tag": args.get("no_tag"),
         "excluded_tags": args.get("excluded_tags"),
-        "state": args.get("state"),
+        "sort_by": args.get("sort_by"),
         "type": args.get("type"),
         "mitre_tactic_name": args.get("mitre_tactic_name"),
-        "type": args.get("type")
+        "hostname": args.get("hostname"),
+        "src_hostname": args.get("src_hostname"),
+        "dest_hostname": args.get("dest_hostname"),
+        "username": args.get("username"),
+        "note": args.get("note"),
+        "state": args.get("state"),
+        "search": args.get("search"),
+        "page": args.get("page"),
+        "page_size": args.get("page_size")
     }
 
     if "help" in args:
+
+        params['date_from'] = "ISO 8601 date format"
+        params['date_to'] = "ISO 8601 date format"
+        params['since'] = "15d, yesterday: do not combinate with date_from and date_to "
+        params['ids'] = "Alerts of given IDs"
+        params['excluded_ids'] = "Alerts that are not the given IDs"
+        params['acknowledged'] = "boolean"
+        params['gcap_id'] = "Alerts of given GCap IDs, 1st GCap has ID 1"
+        params['ip'] = "Alerts related of given IPs"
+        params['src_ip'] = "Alerts of given source IPs"
+        params['dest_ip'] = "Alerts of given destination IPs"
+        params['risk_min'] = "number, alerts with greater risk than the given value"
+        params['risk_max'] = "number, alerts with lower risk than the given value"
+        params['name'] = "Alerts containing in their name the given values"
+        params['description'] = "Alerts containing in their description the given values"
+        params['tag'] = "Alerts with given list of tag values (logical OR between tags)"
+        params['no_tag'] = "boolean, alerts with no tags"
+        params['excluded_tags'] = "Alerts without given list of tag values (logical OR between tags)"
+        params['sort_by'] = "date, name, risk, -date, -name, -risk"
+        params['type'] = "active_cti, "\
+                         "beacon_detect, "\
+                         "dga_detect, "\
+                         "malcore, "\
+                         "malcore_retroanalyzer, "\
+                         "malicious_powershell_detect, "\
+                         "ransomware_detect, "\
+                         "retrohunt, "\
+                         "shellcode_detect, "\
+                         "sigflow_alert"
+        params['mitre_tactic_name'] = "Filter alerts by MITRE Tactic Name"
+        params['hostname'] = "Filter the alerts by hostname through the src_ip and dest_ip addresses"
+        params['src_hostname'] = "Filter the alerts by hostname through the src_ip addresses"
+        params['dest_hostname'] = "Filter the alerts by hostname through the dest_ip addresses"
+        params['username'] = "Filter the alerts by username through the src_ip and dest_ip addresses"
+        params['note'] = "Alerts with given note content"
+        params['state'] = "closed, mute, open: alerts with given state"
+        params['search'] = "Alerts with given search term"
+        params['page'] = "A page number in the results set"
+        params['page_size'] = "Number of results per page"
+
         md = tableToMarkdown("Help", params)
 
         return CommandResults(
@@ -334,6 +389,16 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
         
     req = client._get(endpoint="/api/v1/alerts/", params=params)
     res = req.json()
+
+    if "results" not in res:
+
+        return CommandResults(
+           readable_output="# Alerts\n\nEmpty",
+           outputs_prefix="Alerts.List",
+           outputs_key_field='',
+           outputs="# Alerts\n\nEmpty"
+       ) 
+
     md = tableToMarkdown("Alerts", res['results'])
 
     return CommandResults(
