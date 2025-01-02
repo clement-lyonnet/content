@@ -448,6 +448,45 @@ def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResu
    )
 
 
+def gcenter103_note_update(client: GwClient, args: dict[str, str]) -> CommandResults:
+    """data=note: params.note"""
+    params = {
+        "note": args.get("note"),
+        "uuid": args.get("uuid")
+    }
+
+    if "help" in args:
+
+        params['note'] = "Note to add"
+        params['uuid'] = "UUID of the alert to update note"
+
+        md = tableToMarkdown("gcenter103_note_update - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Note.Update",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    data = {"note": params['note']}
+    
+    try:        
+        req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/note",data=data)
+    except req.status_code != 200:
+        raise Exception("Request failed")
+  
+    res = req.json()
+    md = tableToMarkdown("gcenter103_note_update", res)
+
+    return CommandResults(
+       readable_output=md,
+       outputs_prefix="Note.Update",
+       outputs_key_field='',
+       outputs=md
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -999,6 +1038,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_alerts_get(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-note-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_note_update(
                     client=client,
                     args=args)
             ) 
