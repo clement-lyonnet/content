@@ -113,5 +113,19 @@ script:
     - contextPath: test
       description: test
       type: String
+  - name: gcenter103-tags-get
+    description: Get tags of an alert by UUID
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
+  - name: gcenter103-tags-update
+    description: Update tags of an alert by UUID
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

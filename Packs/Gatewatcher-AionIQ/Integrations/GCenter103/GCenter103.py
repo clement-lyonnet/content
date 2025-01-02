@@ -449,7 +449,7 @@ def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResu
 
 
 def gcenter103_note_update(client: GwClient, args: dict[str, str]) -> CommandResults:
-    """data=note: params.note"""
+
     params = {
         "note": args.get("note"),
         "uuid": args.get("uuid")
@@ -482,6 +482,89 @@ def gcenter103_note_update(client: GwClient, args: dict[str, str]) -> CommandRes
     return CommandResults(
        readable_output=md,
        outputs_prefix="Note.Update",
+       outputs_key_field='',
+       outputs=md
+   )
+
+
+def gcenter103_tags_get(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "uuid": args.get("uuid")
+    }
+
+    if "help" in args:
+
+        params['uuid'] = "UUID of the alert to get tags"
+
+        md = tableToMarkdown("gcenter103_tags_get - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Tags.Get",
+           outputs_key_field='',
+           outputs=md
+       ) 
+    
+    try:        
+        req = client._get(endpoint="/api/v1/alerts/"+params['uuid']+"/tags")
+    except req.status_code != 200:
+        raise Exception("Request failed")
+  
+    res = req.json()
+    md = tableToMarkdown("gcenter103_tags_get", res['tags'])
+
+    return CommandResults(
+       readable_output=md,
+       outputs_prefix="Tag.Get",
+       outputs_key_field='',
+       outputs=md
+   )
+
+
+def gcenter103_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "tags": args.get("tags"),
+        "uuid": args.get("uuid")
+    }
+
+    if "help" in args:
+
+        params['tags'] = "Alert tags to update"
+        params['uuid'] = "UUID of the alert to get tags"
+
+        md = tableToMarkdown("gcenter103_tags_update - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Tags.Update",
+           outputs_key_field='',
+           outputs=md
+       ) 
+   
+    if params['tags'] is None:
+        raise Exception("You must provide at least one tag ID.") 
+
+    data = {"tags": []}
+    tags = params['tags'].split(',')
+
+    if len(tags) > 0:    
+        for i in range(0, len(tags)):
+            data['tags'].append({'id': int(tags[i])})
+
+    try:        
+        req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/tags", json_data=data)
+    except req.status_code != 200:
+        raise Exception("Request failed")
+  
+    res = req.json()
+
+    md = tableToMarkdown("gcenter103_tags_update", res['tags'])
+
+    return CommandResults(
+       readable_output=md,
+       outputs_prefix="Tag.Update",
        outputs_key_field='',
        outputs=md
    )
@@ -1045,6 +1128,20 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_note_update(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-tags-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_tags_get(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-tags-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_tags_update(
                     client=client,
                     args=args)
             ) 
