@@ -378,7 +378,7 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
         params['page'] = "A page number in the results set"
         params['page_size'] = "Number of results per page"
 
-        md = tableToMarkdown("Help", params)
+        md = tableToMarkdown("gcenter103_alerts_list - Help", params)
 
         return CommandResults(
            readable_output=md,
@@ -386,20 +386,24 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
            outputs_key_field='',
            outputs=md
        ) 
-        
-    req = client._get(endpoint="/api/v1/alerts/", params=params)
+    
+    try:        
+        req = client._get(endpoint="/api/v1/alerts/", params=params)
+    except req.status_code != 200:
+        raise Exception("Request failed")
+    
     res = req.json()
 
     if "results" not in res:
 
         return CommandResults(
-           readable_output="# Alerts\n\nEmpty",
+           readable_output="# gcenter103_alerts_list\n\nEmpty",
            outputs_prefix="Alerts.List",
            outputs_key_field='',
-           outputs="# Alerts\n\nEmpty"
+           outputs="# gcenter103_alerts_list\n\nEmpty"
        ) 
 
-    md = tableToMarkdown("Alerts", res['results'])
+    md = tableToMarkdown("gcenter103_alerts_list", res['results'])
 
     return CommandResults(
        readable_output=md,
@@ -407,6 +411,41 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
        outputs_key_field='',
        outputs=md
    ) 
+
+
+def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "uuid": args.get("uuid")
+    }
+
+    if "help" in args:
+
+        params['uuid'] = "UUID or Primary Key of the alert to fetch"
+
+        md = tableToMarkdown("gcenter103_alerts_get - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Alerts.Get",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    try:        
+        req = client._get(endpoint="/api/v1/alerts/"+params['uuid'])
+    except req.status_code != 200:
+        raise Exception("Request failed")
+  
+    res = req.json()
+    md = tableToMarkdown("gcenter103_alerts_get", res)
+
+    return CommandResults(
+       readable_output=md,
+       outputs_prefix="Alerts.Get",
+       outputs_key_field='',
+       outputs=md
+   )
 
 
 def convert_event_severity(gw_sev: int) -> float:
@@ -953,6 +992,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_alerts_list(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-alerts-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_alerts_get(
                     client=client,
                     args=args)
             ) 

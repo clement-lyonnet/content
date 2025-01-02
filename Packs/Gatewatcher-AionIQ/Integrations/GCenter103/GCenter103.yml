@@ -99,5 +99,12 @@ script:
     - contextPath: test
       description: test
       type: String
+  - name: gcenter103-alerts-get
+    description: Get an alert by UUID
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
