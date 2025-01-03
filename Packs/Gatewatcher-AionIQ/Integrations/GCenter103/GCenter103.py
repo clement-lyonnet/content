@@ -758,6 +758,43 @@ def gcenter103_raw_alerts_get(client: GwClient, args: dict[str, str]) -> Command
    )
 
 
+def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "id": args.get("id")
+    }
+
+    if "help" in args:
+
+        params['id'] = "[string]: ID of the alert to fetch the file from (corresponds to event.id field)"
+
+        md = tableToMarkdown("gcenter103-raw-alerts-file-get - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Alerts.Raw.Alerts.File.Get",
+           outputs_key_field='',
+           outputs=md
+       ) 
+    
+    if params['id'] is None:
+        raise Exception("You must provide an alert id")
+   
+    try:        
+        req = client._get(endpoint="/api/v1/raw-alerts/"+params['id']+"/file")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.json()}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}") 
+
+    res = req.url
+
+    return CommandResults(
+       readable_output=res,
+       outputs_prefix="Raw.Alerts.File.Get",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1344,6 +1381,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_raw_alerts_get(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-raw-alerts-file-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_raw_alerts_file_get(
                     client=client,
                     args=args)
             ) 
