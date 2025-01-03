@@ -378,7 +378,7 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
         params['page'] = "A page number in the results set"
         params['page_size'] = "Number of results per page"
 
-        md = tableToMarkdown("gcenter103_alerts_list - Help", params)
+        md = tableToMarkdown("gcenter103-alerts-list - Help", params)
 
         return CommandResults(
            readable_output=md,
@@ -423,7 +423,7 @@ def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResu
 
         params['uuid'] = "UUID or Primary Key of the alert to fetch"
 
-        md = tableToMarkdown("gcenter103_alerts_get - Help", params)
+        md = tableToMarkdown("gcenter103-alerts-get - Help", params)
 
         return CommandResults(
            readable_output=md,
@@ -448,7 +448,7 @@ def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResu
    )
 
 
-def gcenter103_note_update(client: GwClient, args: dict[str, str]) -> CommandResults:
+def gcenter103_alerts_note_update(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
         "note": args.get("note"),
@@ -460,7 +460,7 @@ def gcenter103_note_update(client: GwClient, args: dict[str, str]) -> CommandRes
         params['note'] = "Note to add"
         params['uuid'] = "UUID of the alert to update note"
 
-        md = tableToMarkdown("gcenter103_note_update - Help", params)
+        md = tableToMarkdown("gcenter103-alerts-note-update - Help", params)
 
         return CommandResults(
            readable_output=md,
@@ -477,17 +477,17 @@ def gcenter103_note_update(client: GwClient, args: dict[str, str]) -> CommandRes
         raise Exception("Request failed")
   
     res = req.json()
-    md = tableToMarkdown("gcenter103_note_update", res)
+    md = tableToMarkdown("gcenter103_alerts_note_update", res)
 
     return CommandResults(
        readable_output=md,
-       outputs_prefix="Note.Update",
+       outputs_prefix="Alerts.Note.Update",
        outputs_key_field='',
        outputs=md
    )
 
 
-def gcenter103_tags_get(client: GwClient, args: dict[str, str]) -> CommandResults:
+def gcenter103_alerts_tags_get(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
         "uuid": args.get("uuid")
@@ -497,11 +497,11 @@ def gcenter103_tags_get(client: GwClient, args: dict[str, str]) -> CommandResult
 
         params['uuid'] = "UUID of the alert to get tags"
 
-        md = tableToMarkdown("gcenter103_tags_get - Help", params)
+        md = tableToMarkdown("gcenter103-alerts-tags-get - Help", params)
 
         return CommandResults(
            readable_output=md,
-           outputs_prefix="Tags.Get",
+           outputs_prefix="Alerts.Tags.Get",
            outputs_key_field='',
            outputs=md
        ) 
@@ -512,17 +512,17 @@ def gcenter103_tags_get(client: GwClient, args: dict[str, str]) -> CommandResult
         raise Exception("Request failed")
   
     res = req.json()
-    md = tableToMarkdown("gcenter103_tags_get", res['tags'])
+    md = tableToMarkdown("gcenter103_alerts_tags_get", res['tags'])
 
     return CommandResults(
        readable_output=md,
-       outputs_prefix="Tag.Get",
+       outputs_prefix="Alerts.Tag.Get",
        outputs_key_field='',
        outputs=md
    )
 
 
-def gcenter103_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+def gcenter103_alerts_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
         "tags": args.get("tags"),
@@ -534,11 +534,11 @@ def gcenter103_tags_update(client: GwClient, args: dict[str, Any]) -> CommandRes
         params['tags'] = "Alert tags to update"
         params['uuid'] = "UUID of the alert to get tags"
 
-        md = tableToMarkdown("gcenter103_tags_update - Help", params)
+        md = tableToMarkdown("gcenter103-alerts-tags-update - Help", params)
 
         return CommandResults(
            readable_output=md,
-           outputs_prefix="Tags.Update",
+           outputs_prefix="Alerts.Tags.Update",
            outputs_key_field='',
            outputs=md
        ) 
@@ -560,15 +560,155 @@ def gcenter103_tags_update(client: GwClient, args: dict[str, Any]) -> CommandRes
   
     res = req.json()
 
-    md = tableToMarkdown("gcenter103_tags_update", res['tags'])
+    md = tableToMarkdown("gcenter103_alerts_tags_update", res['tags'])
 
     return CommandResults(
        readable_output=md,
-       outputs_prefix="Tag.Update",
+       outputs_prefix="Alerts.Tag.Update",
        outputs_key_field='',
        outputs=md
    )
 
+
+def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "note_u": args.get("note_u"),
+        "tag_u": args.get("tag_u"),
+        "date_from": args.get("date_from"),
+        "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "ids": args.get("ids"),
+        "excluded_ids": args.get("excluded_ids"),
+        "acknowledged": args.get("acknowledged"),
+        "gcap_id": args.get("gcap_id"),
+        "ip": args.get("ip"),
+        "src_ip": args.get("src_ip"),
+        "dest_ip": args.get("dest_ip"),
+        "risk_min": args.get("risk_min"),
+        "risk_max": args.get("risk_max"),
+        "name": args.get("name"),
+        "description": args.get("description"),
+        "tag": args.get("tag"),
+        "no_tag": args.get("no_tag"),
+        "excluded_tags": args.get("excluded_tags"),
+        "sort_by": args.get("sort_by"),
+        "type": args.get("type"),
+        "mitre_tactic_name": args.get("mitre_tactic_name"),
+        "hostname": args.get("hostname"),
+        "src_hostname": args.get("src_hostname"),
+        "dest_hostname": args.get("dest_hostname"),
+        "username": args.get("username"),
+        "note": args.get("note"),
+        "state": args.get("state"),
+        "search": args.get("search"),
+        "action": args.get("action")
+    }
+
+    if "help" in args:
+
+        params['note_u'] = "A note to add to alerts"
+        params['tag_u'] = "Tags to add or update to alerts"
+        params['date_from'] = "ISO 8601 date format"
+        params['date_to'] = "ISO 8601 date format"
+        params['since'] = "15d, yesterday: do not combinate with date_from and date_to "
+        params['ids'] = "Alerts of given IDs"
+        params['excluded_ids'] = "Alerts that are not the given IDs"
+        params['acknowledged'] = "boolean"
+        params['gcap_id'] = "Alerts of given GCap IDs, 1st GCap has ID 1"
+        params['ip'] = "Alerts related of given IPs"
+        params['src_ip'] = "Alerts of given source IPs"
+        params['dest_ip'] = "Alerts of given destination IPs"
+        params['risk_min'] = "number, alerts with greater risk than the given value"
+        params['risk_max'] = "number, alerts with lower risk than the given value"
+        params['name'] = "Alerts containing in their name the given values"
+        params['description'] = "Alerts containing in their description the given values"
+        params['tag'] = "Alerts with given list of tag values (logical OR between tags)"
+        params['no_tag'] = "boolean, alerts with no tags"
+        params['excluded_tags'] = "Alerts without given list of tag values (logical OR between tags)"
+        params['sort_by'] = "date, name, risk, -date, -name, -risk"
+        params['type'] = "active_cti, "\
+                         "beacon_detect, "\
+                         "dga_detect, "\
+                         "malcore, "\
+                         "malcore_retroanalyzer, "\
+                         "malicious_powershell_detect, "\
+                         "ransomware_detect, "\
+                         "retrohunt, "\
+                         "shellcode_detect, "\
+                         "sigflow_alert"
+        params['mitre_tactic_name'] = "Filter alerts by MITRE Tactic Name"
+        params['hostname'] = "Filter the alerts by hostname through the src_ip and dest_ip addresses"
+        params['src_hostname'] = "Filter the alerts by hostname through the src_ip addresses"
+        params['dest_hostname'] = "Filter the alerts by hostname through the dest_ip addresses"
+        params['username'] = "Filter the alerts by username through the src_ip and dest_ip addresses"
+        params['note'] = "Alerts with given note content"
+        params['state'] = "closed, mute, open: alerts with given state"
+        params['search'] = "Alerts with given search term"
+        params['action'] = "Actions to perform on alerts.\n"\
+                           "Possible values are: "\
+                           "acknowledge, "\
+                           "open, "\
+                           "tag, "\
+                           "untag, "\
+                           "note, "\
+                           "open_related, "\
+                           "close_related, "\
+                           "mute_signature, "\
+                           "unmute_signature"
+
+        md = tableToMarkdown("gcenter103-alerts-status-update - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Alerts.Status.Update",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    data = {"note": "",
+            "tags": []}
+    if params.get("note_u") is not None:
+        data['note'] = params.get("note_u")
+    if params.get("tag_u") is not None:
+        tags = params['tag_u'].split(',')
+        for i in range(0, len(tags)):
+            data['tags'].append(int(tags[i]))
+
+    if params['action'] not in ["acknowledge", 
+                                "open", 
+                                "tag", 
+                                "untag", 
+                                "note", 
+                                "open_related", 
+                                "close_related", 
+                                "mute_signature", 
+                                "unmute_signature"]:
+
+        return CommandResults(readable_output="# gcenter103-alerts-status-update\n\n"\
+                                               "valid action parameter is required")
+
+    action = params['action']
+    del params['action']
+    del params['note_u']
+    del params['tag_u']
+    
+    try:        
+        req = client._put(endpoint="/api/v1/alerts/action/"+action, json_data=data, params=params)
+        if req.status_code != 204:
+            raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")
+         
+    return CommandResults(
+       readable_output="# gcenter103-alerts-status-update\n\n"\
+                       f"{req.status_code}: OK",
+       outputs_prefix="Alerts.Status.Update",
+       outputs_key_field='',
+       outputs="# gcenter103-alerts-status-update\n\n"\
+                       f"{req.status_code}: OK"
+   ) 
+    
 
 def convert_event_severity(gw_sev: int) -> float:
 
@@ -1124,24 +1264,31 @@ def main() -> None:
                     client=client,
                     args=args)
             ) 
-        elif command == "gcenter103-note-update":
+        elif command == "gcenter103-alerts-note-update":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_note_update(
+                gcenter103_alerts_note_update(
                     client=client,
                     args=args)
             ) 
-        elif command == "gcenter103-tags-get":
+        elif command == "gcenter103-alerts-tags-get":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_tags_get(
+                gcenter103_alerts_tags_get(
                     client=client,
                     args=args)
             ) 
-        elif command == "gcenter103-tags-update":
+        elif command == "gcenter103-alerts-tags-update":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_tags_update(
+                gcenter103_alerts_tags_update(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-alerts-status-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_alerts_status_update(
                     client=client,
                     args=args)
             ) 

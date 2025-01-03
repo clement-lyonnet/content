@@ -106,22 +106,29 @@ script:
     - contextPath: test
       description: test
       type: String
-  - name: gcenter103-note-update
+  - name: gcenter103-alerts-note-update
     description: Update an alert note by UUID
     deprecated: false
     outputs:
     - contextPath: test
       description: test
       type: String
-  - name: gcenter103-tags-get
+  - name: gcenter103-alerts-tags-get
     description: Get tags of an alert by UUID
     deprecated: false
     outputs:
     - contextPath: test
       description: test
       type: String
-  - name: gcenter103-tags-update
+  - name: gcenter103-alerts-tags-update
     description: Update tags of an alert by UUID
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
+  - name: gcenter103-alerts-status-update
+    description: Update status of an alert
     deprecated: false
     outputs:
     - contextPath: test
