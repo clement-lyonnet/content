@@ -800,6 +800,51 @@ def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> Co
    )
 
 
+def gcenter103_file_scan(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "engine": args.get("engine")
+    }
+
+    if "help" in args:
+
+        params['engine'] = "[string]: engine to perform scan on the latest uploaded file marked as note\n"\
+                           "Possible values are: malcore, powershell, shellcode"
+
+        md = tableToMarkdown("gcenter103-file-scan - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="File.Scan",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    if params['engine'] is None:
+        raise Exception("You must provide an engine")
+
+    demisto.log("Make sure to upload the file to scan before execution of the command and select 'Mark as note'")
+    last_file_idx = len(demisto.context()['File'])
+    fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
+    
+    files = {"file": open(fp_d['path'],'rb')}
+
+    try:        
+        req = client._post(endpoint="/api/v1/gscan/"+params['engine'], files=files)
+        if req.status_code != 201:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+    res.update({"file_name": str(fp_d['name'])})
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-file-scan results of "+str(params['engine']),res),
+       outputs_prefix="File.Scan",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1393,6 +1438,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_raw_alerts_file_get(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-file-scan":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_file_scan(
                     client=client,
                     args=args)
             ) 

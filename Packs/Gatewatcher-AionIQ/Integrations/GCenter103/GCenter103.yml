@@ -148,6 +148,12 @@ script:
     - contextPath: test
       description: test
       type: String
-
+  - name: gcenter103-file-scan
+    description: Scan a file on a selected engine 
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
