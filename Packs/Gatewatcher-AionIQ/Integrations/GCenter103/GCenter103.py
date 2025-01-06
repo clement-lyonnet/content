@@ -1,3 +1,4 @@
+import io
 from typing import  (
     Any
 )
@@ -783,14 +784,18 @@ def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> Co
     try:        
         req = client._get(endpoint="/api/v1/raw-alerts/"+params['id']+"/file")
         if req.status_code != 200:
-            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.json()}")
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
     except Exception as e:
         raise Exception(f"Exception: {str(e)}") 
 
-    res = req.url
+    res = req.content
+    filename = str(params['id'])+"-file.zip"
+    file_content = res
+
+    return_results(fileResult(filename, file_content))
 
     return CommandResults(
-       readable_output=res,
+       readable_output="# gcenter103-raw-alerts-file-get: Dumped ZIP file",
        outputs_prefix="Raw.Alerts.File.Get",
    )
 
