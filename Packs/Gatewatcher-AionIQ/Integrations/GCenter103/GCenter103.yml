@@ -269,5 +269,80 @@ script:
     - contextPath: Gatewatcher.Users.List
       description: The list of Kerberos users
       type: string
+  - arguments:
+    - description: ISO-8601 date format 
+      name: date_from
+    - description: ISO-8601 date format 
+      name: date_to
+    - description: 15d, yesterday, ... | Not compatible with date_from and date_to parameters 
+      name: since
+    - description: List of alerts IDs
+      name: ids
+    - description: List of alerts IDs
+      name: excluded_ids
+    - description: true/false, filter on acknowledgement status
+      name: acknowledged
+    - description: List of GCap IDs, first GCap has ID 1
+      name: gcap_id
+    - description: IPs addresses related of alerts
+      name: ip
+      isArray: true
+    - description: Source IPs addresses of alerts
+      name: src_ip
+      isArray: true
+    - description: Destination IPs addresses of alerts
+      name: dest_ip
+      isArray: true
+    - description: Minimal risk value
+      name: risk_min
+    - description: Maximal risk value
+      name: risk_max
+    - description: Filter alerts on their signature
+      name: name
+    - description: Filter alerts on their description
+      name: description
+    - description: User tags
+      name: tag
+      isArray: true
+    - description: true/false, true means users with no tags
+      name: no_tag 
+    - description: Exclude alerts with a list of tags (logical OR between the tags)
+      name: excluded_tags 
+    - description: Possible values are date, -date, risk, -risk, name, -name
+      name: sort_by
+    - description: Filter alerts on engines, possible values are active_cti, beacon_detect, dga_detect, malcore, malcore_retroanalyzer, malicious_powershell_detect, ransomware_detect, retrohunt, shellcode_detect, sigflow_alert
+      name: type
+    - description: Filter alert by MITRE tactic name, possible values are Collection, Collection (ICS), Collection (Mobile), Command and Control, Command and Control (ICS), Command and Control (Mobile), Credential Access, Credential Access (Mobile), Defense Evasion, Defense Evasion (Mobile), Discovery, Discovery (ICS), Discovery (Mobile), Evasion, Execution, Execution (ICS), Execution (Mobile), Exfiltration, Exfiltration (Mobile), Impact, Impact (ICS), Impact (Mobile), Impair Process Control, Inhibit Response Function, Initial Access, Initial Access (ICS), Initial Access (Mobile), Lateral Movement, Lateral Movement (ICS), Lateral Movement (Mobile), Persistence, Persistence (ICS), Persistence (Mobile), Privilege Escalation, Privilege Escalation (ICS), Privilege Escalation (Mobile), Reconnaissance, Resource Development
+      name: mitre_tactic_name
+    - description: Hostnames
+      name: hostname
+      isArray: true
+    - description: Source hostnames
+      name: src_hostname
+      isArray: true
+    - description: Destination hostnames
+      name: dest_hostname
+      isArray: true
+    - description: Username filter
+      name: username
+      isArray: true
+    - description: User note content
+      name: note
+    - description: Filter alerts on their state, possible values are closed, mute, open
+      name: state
+    - description: A page to select in the results set 
+      name: page
+    - description: Number of results per page
+      name: page_size
+    - description: Alerts of this Kerberos user name   
+      name: kuser_name
+      required: true
+    name: gcenter103-users-alerts-get
+    description: Retrieves a list of the alerts of a Kerberos user
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Users.Alerts.Get
+      description: The list of alerts of a Kerberos user
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

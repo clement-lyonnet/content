@@ -1238,6 +1238,58 @@ def gcenter103_users_list(client: GwClient, args: dict[str, Any]) -> CommandResu
    )
 
 
+def gcenter103_users_alerts_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "date_from": args.get("date_from"),
+        "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "ids": args.get("ids"),
+        "excluded_ids": args.get("excluded_ids"),
+        "acknowledged": args.get("acknowledged"),
+        "gcap_id": args.get("gcap_id"),
+        "ip": args.get("ip"),
+        "src_ip": args.get("src_ip"),
+        "dest_ip": args.get("dest_ip"),
+        "risk_min": args.get("risk_min"),
+        "risk_max": args.get("risk_max"),
+        "name": args.get("name"),
+        "description": args.get("description"),
+        "tag": args.get("tag"),
+        "no_tag": args.get("no_tag"),
+        "excluded_tags": args.get("excluded_tags"),
+        "sort_by": args.get("sort_by"),
+        "type": args.get("type"),
+        "mitre_tactic_name": args.get("mitre_tactic_name"),
+        "hostname": args.get("hostname"),
+        "src_hostname": args.get("src_hostname"),
+        "dest_hostname": args.get("dest_hostname"),
+        "username": args.get("username"),
+        "note": args.get("note"),
+        "state": args.get("state"),
+        "page": args.get("page"),
+        "page_size": args.get("page_size"),
+        "kuser_name": args.get("kuser_name")
+    }
+
+    kuser_name = params['kuser_name']
+    del params['kuser_name']
+    
+    try:        
+        req = client._get(endpoint="/api/v1/kusers/"+kuser_name+"/alerts", params=params)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-users-alerts-get",res['results']),
+       outputs_prefix="Gatewatcher.Users.Alerts.Get",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1894,6 +1946,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_users_list(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-users-alerts-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_alerts_get(
                     client=client,
                     args=args)
             )
