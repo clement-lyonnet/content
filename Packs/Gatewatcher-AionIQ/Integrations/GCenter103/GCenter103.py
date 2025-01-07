@@ -346,10 +346,10 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
         params['ids'] = "[list[integer]]: filter in alerts, IDs are GCenter specific"
         params['excluded_ids'] = "list[integer]]: filter out alerts, IDs are GCenter specific"
         params['acknowledged'] = "[boolean]"
-        params['gcap_id'] = "[integer]: Alerts of given GCap IDs, 1st GCap has ID 1"
-        params['ip'] = "[list[string]]: Alerts related of given IPs"
-        params['src_ip'] = "[list[string]]: Alerts of given source IPs"
-        params['dest_ip'] = "[list[string]]: Alerts of given destination IPs"
+        params['gcap_id'] = "[integer]: alerts of given GCap IDs, 1st GCap has ID 1"
+        params['ip'] = "[list[string]]: alerts related of given IPs"
+        params['src_ip'] = "[list[string]]: alerts of given source IPs"
+        params['dest_ip'] = "[list[string]]: alerts of given destination IPs"
         params['risk_min'] = "[number]: alerts with greater risk than the given value"
         params['risk_max'] = "[number]: alerts with lower risk than the given value"
         params['name'] = "[string]: alerts containing in their name the given values"
@@ -357,7 +357,7 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
         params['tag'] = "[list[string]]: alerts with given tag labels (logical OR between tags)"
         params['no_tag'] = "[boolean]: set on true, gives alerts with no tags affected"
         params['excluded_tags'] = "[list[string]]: filter out alerts with given tag labels (logical OR between tags)"
-        params['sort_by'] = "[list[string]]: possible values are date, name, risk, -date, -name, -risk"
+        params['sort_by'] = "[string]: possible values are date, name, risk, -date, -name, -risk"
         params['type'] = "[list[string]]: filter on engines, possible values are"\
                          "active_cti, "\
                          "beacon_detect, "\
@@ -620,10 +620,10 @@ def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> C
         params['ids'] = "[list[integer]]: filter in alerts, IDs are GCenter specific"
         params['excluded_ids'] = "list[integer]]: filter out alerts, IDs are GCenter specific"
         params['acknowledged'] = "[boolean]"
-        params['gcap_id'] = "[integer]: Alerts of given GCap IDs, 1st GCap has ID 1"
-        params['ip'] = "[list[string]]: Alerts related of given IPs"
-        params['src_ip'] = "[list[string]]: Alerts of given source IPs"
-        params['dest_ip'] = "[list[string]]: Alerts of given destination IPs"
+        params['gcap_id'] = "[integer]: alerts of given GCap IDs, 1st GCap has ID 1"
+        params['ip'] = "[list[string]]: alerts related of given IPs"
+        params['src_ip'] = "[list[string]]: alerts of given source IPs"
+        params['dest_ip'] = "[list[string]]: alerts of given destination IPs"
         params['risk_min'] = "[number]: alerts with greater risk than the given value"
         params['risk_max'] = "[number]: alerts with lower risk than the given value"
         params['name'] = "[string]: alerts containing in their name the given values"
@@ -631,7 +631,7 @@ def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> C
         params['tag'] = "[list[string]]: alerts with given tag labels (logical OR between tags)"
         params['no_tag'] = "[boolean]: set on true, gives alerts with no tags affected"
         params['excluded_tags'] = "[list[string]]: filter out alerts with given tag labels (logical OR between tags)"
-        params['sort_by'] = "[list[string]]: possible values are date, name, risk, -date, -name, -risk"
+        params['sort_by'] = "[string]: possible values are date, name, risk, -date, -name, -risk"
         params['type'] = "[list[string]]: filter on engines, possible values are"\
                          "active_cti, "\
                          "beacon_detect, "\
@@ -879,6 +879,94 @@ def gcenter103_file_scan_result_get(client: GwClient, args: dict[str, str]) -> C
     return CommandResults(
        readable_output=tableToMarkdown("gcenter103-file-scan-result-get",res),
        outputs_prefix="File.Scan.Result.Get",
+   )
+
+
+def gcenter103_assets_list(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "search": args.get("search"),
+        "page": args.get("page"),
+        "page_size": args.get("page_size"),
+        "date_from": args.get("date_from"),
+        "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "fast": args.get("fast"),
+        "gcap_id": args.get("gcap_id"),
+        "sort_by": args.get("sort_by"),
+        "risk_min": args.get("risk_min"),
+        "risk_max": args.get("risk_max"),
+        "name": args.get("name"),
+        "type": args.get("type"),
+        "os_firmware": args.get("os_firmware"),
+        "ip": args.get("ip"),
+        "mac_address": args.get("mac_address"),
+        "tag": args.get("tag"),
+        "note": args.get("note"),
+        "no_tag": args.get("no_tag")
+    }
+
+    if "help" in args:
+
+        params['search'] = "[string]: asset with given search term"
+        params['page'] = "[integer]: select a page number in the results set"
+        params['page_size'] = "[integer]: number of results per page"
+        params['date_from'] = "[date]: ISO-8601 format"
+        params['date_to'] = "[date]: ISO-8601 format"
+        params['since'] = "[15d, yesterday, ...]: not compatible with date_from and date_to "
+        params['fast'] = "[boolean]: speed of query fetch, needs to be employed with 'since' parameter"
+        params['gcap_id'] = "[integer]: assets of given GCap IDs, 1st GCap has ID 1"
+        params['sort_by'] = "[string]: possible values are:\nrisk, -risk, name, -name"
+        params['risk_min'] = "[number]: assets with greater risk than the given value"
+        params['risk_max'] = "[number]: assets with lower risk than the given value"
+        params['name'] = "[list[string]]: assets containing in their name the given values"
+        params['type'] = "[string]: type of asset, possible values are:\n"\
+                         "Smartphone, "\
+                         "IoT, "\
+                         "Laptop, "\
+                         "Videogame, "\
+                         "TV, "\
+                         "Other, "\
+                         "Firewall, "\
+                         "Hypervisor, "\
+                         "IPBX, "\
+                         "Printer, "\
+                         "Proxy, "\
+                         "Router, "\
+                         "Server, "\
+                         "Storage, "\
+                         "Virtual Machine, "\
+                         "WAF, "\
+                         "WiFi, "\
+                         "unknown"
+        params['os_firmware'] = "[list[string]]: assets of the Operating System/Firmware"
+        params['ip'] = "[list[string]]: assets related of given IPs"
+        params['mac_address'] = "[list[string]]: assets related of given MACs"
+        params['tag'] = "[list[string]]: assets with given tag labels"
+        params['note'] = "[string]: assets with given note content"
+        params['no_tag'] = "[boolean]: set on true, gives assets with no tags affected"
+
+        md = tableToMarkdown("gcenter103-assets-list - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Assets.List",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    try:        
+        req = client._get(endpoint="/api/v1/assets/", params=params)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-assets-list",res['results']),
+       outputs_prefix="Assets.List",
    )
 
 
@@ -1489,6 +1577,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_file_scan_result_get(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-assets-list":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_assets_list(
                     client=client,
                     args=args)
             )

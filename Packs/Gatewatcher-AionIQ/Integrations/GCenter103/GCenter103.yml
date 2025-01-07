@@ -162,5 +162,13 @@ script:
     - contextPath: test
       description: test
       type: String
+  - name: gcenter103-assets-list
+    description: Retrieve previous scan with its id
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
+
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
