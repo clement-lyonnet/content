@@ -845,6 +845,43 @@ def gcenter103_file_scan(client: GwClient, args: dict[str, str]) -> CommandResul
    )
 
 
+def gcenter103_file_scan_result_get(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "id": args.get("id")
+    }
+
+    if "help" in args:
+
+        params['id'] = "[integer]: id of previous GScan analysis to retrieve"
+
+        md = tableToMarkdown("gcenter103-file-scan-result-get - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="File.Scan.Result.Get",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    if params['id'] is None:
+        raise Exception("You must provide an id")
+
+    try:        
+        req = client._get(endpoint="/api/v1/gscan/histories/"+params['id'])
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-file-scan-result-get",res),
+       outputs_prefix="File.Scan.Result.Get",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1448,6 +1485,13 @@ def main() -> None:
                     client=client,
                     args=args)
             ) 
+        elif command == "gcenter103-file-scan-result-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_file_scan_result_get(
+                    client=client,
+                    args=args)
+            )
 
     except Exception as e:
         return_error( # noqa: F405
