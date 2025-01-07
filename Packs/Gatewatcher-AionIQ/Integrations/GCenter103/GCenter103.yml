@@ -186,5 +186,17 @@ script:
     - contextPath: test
       description: test
       type: String
+  - arguments:
+    - description: Asset name
+      name: asset_name
+    - description: Note to update
+      name: note
+    name: gcenter103-assets-note-update
+    description: Update an asset note
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Assets.Note.Update
+      description: The updated note
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

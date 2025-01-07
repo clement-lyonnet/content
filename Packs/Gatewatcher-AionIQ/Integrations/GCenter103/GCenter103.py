@@ -1121,6 +1121,30 @@ def gcenter103_assets_get(client: GwClient, args: dict[str, Any]) -> CommandResu
    )
 
 
+def gcenter103_assets_note_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "note": args.get("note"),
+        "asset_name": args.get("asset_name")
+    }
+
+    data = {"note": params['note']}
+
+    try:        
+        req = client._put(endpoint="/api/v1/assets/"+params['asset_name']+"/note", json_data=data)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-assets-note-update",res),
+       outputs_prefix="Gatewatcher.Assets.Note.Update",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1752,6 +1776,14 @@ def main() -> None:
                     client=client,
                     args=args)
             )
+        elif command == "gcenter103-assets-note-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_assets_note_update(
+                    client=client,
+                    args=args)
+            )
+
 
     except Exception as e:
         return_error( # noqa: F405
