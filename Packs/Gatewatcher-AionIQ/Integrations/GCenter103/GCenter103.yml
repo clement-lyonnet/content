@@ -208,5 +208,20 @@ script:
     - contextPath: Gatewatcher.Assets.Tags.Get
       description: The tags of the asset
       type: string
+  - arguments:
+    - description: Asset name
+      name: asset_name
+      required: true
+    - description: Tags
+      name: tags
+      isArray: true
+      required: true
+    name: gcenter103-assets-tags-update
+    description: Update the tags of an asset
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Assets.Tags.Update
+      description: The updated tags of the asset
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

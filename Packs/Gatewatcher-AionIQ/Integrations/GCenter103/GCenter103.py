@@ -1167,8 +1167,37 @@ def gcenter103_assets_tags_get(client: GwClient, args: dict[str, Any]) -> Comman
        )
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-assets-tags-get",res),
+       readable_output=tableToMarkdown("gcenter103-assets-tags-get",res['tags']),
        outputs_prefix="Gatewatcher.Assets.Tags.Get",
+   )
+
+
+def gcenter103_assets_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "asset_name": args.get("asset_name"),
+        "tags": args.get("tags")
+    }
+
+    data = {"tags": []}
+    tags = params['tags'].split(',')
+
+    if len(tags) > 0:    
+        for i in range(0, len(tags)):
+            data['tags'].append({'id': int(tags[i])})
+
+    try:        
+        req = client._put(endpoint="/api/v1/assets/"+params['asset_name']+"/tags", json_data=data)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-assets-tags-get",res['tags']),
+       outputs_prefix="Gatewatcher.Assets.Tags.Update",
    )
 
 
@@ -1814,6 +1843,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_assets_tags_get(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-assets-tags-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_assets_tags_update(
                     client=client,
                     args=args)
             )
