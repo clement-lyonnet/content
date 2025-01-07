@@ -1145,6 +1145,33 @@ def gcenter103_assets_note_update(client: GwClient, args: dict[str, Any]) -> Com
    )
 
 
+def gcenter103_assets_tags_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "asset_name": args.get("asset_name")
+    }
+
+    try:        
+        req = client._get(endpoint="/api/v1/assets/"+params['asset_name']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    if len(res['tags']) == 0:
+        return CommandResults(
+           readable_output=f"# gcenter103-assets-tags-get - Asset {params['asset_name']} has no associated tags",
+           outputs_prefix="Gatewatcher.Assets.Tags.Get",
+       )
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-assets-tags-get",res),
+       outputs_prefix="Gatewatcher.Assets.Tags.Get",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1783,7 +1810,13 @@ def main() -> None:
                     client=client,
                     args=args)
             )
-
+        elif command == "gcenter103-assets-tags-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_assets_tags_get(
+                    client=client,
+                    args=args)
+            )
 
     except Exception as e:
         return_error( # noqa: F405
