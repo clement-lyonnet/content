@@ -223,5 +223,51 @@ script:
     - contextPath: Gatewatcher.Assets.Tags.Update
       description: The updated tags of the asset
       type: string
+  - arguments:
+    - description: A search term
+      name: search
+    - description: A page to select in the results set 
+      name: page
+    - description: Number of results per page
+      name: page_size
+    - description: ISO-8601 date format 
+      name: date_from
+    - description: ISO-8601 date format 
+      name: date_to
+    - description: 15d, yesterday, ... | Not compatible with date_from and date_to parameters 
+      name: since
+    - description: true/false  
+      name: fast
+    - description: List of GCap IDs, first GCap has ID 1
+      name: gcap_id
+    - description: Possible values are risk, -risk, name, -name
+      name: sort_by
+    - description: Minimal risk value
+      name: risk_min
+    - description: Maximal risk value
+      name: risk_max
+    - description: Username filter
+      name: username
+      isArray: true
+    - description: IPs addresses
+      name: ip
+      isArray: true
+    - description: Hostnames
+      name: hostname
+      isArray: true
+    - description: User tags
+      name: tag
+      isArray: true
+    - description: User note content
+      name: note
+    - description: true/false, true means users with no tags
+      name: no_tag 
+    name: gcenter103-users-list
+    description: Retrieves a list of Kerberos users
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Users.List
+      description: The list of Kerberos users
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

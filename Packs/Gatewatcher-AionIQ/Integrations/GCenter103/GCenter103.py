@@ -1201,6 +1201,43 @@ def gcenter103_assets_tags_update(client: GwClient, args: dict[str, Any]) -> Com
    )
 
 
+def gcenter103_users_list(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "search": args.get("search"),
+        "page": args.get("page"),
+        "page_size": args.get("page_size"),
+        "date_from": args.get("date_from"),
+        "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "fast": args.get("fast"),
+        "gcap_id": args.get("gcap_id"),
+        "sort_by": args.get("sort_by"),
+        "risk_min": args.get("risk_min"),
+        "risk_max": args.get("risk_max"),
+        "username": args.get("username"),
+        "ip": args.get("ip"),
+        "hostname": args.get("hostname"),
+        "tag": args.get("tag"),
+        "note": args.get("note"),
+        "no_tag": args.get("no_tag")
+    }
+
+    try:        
+        req = client._get(endpoint="/api/v1/kusers", params=params)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-users-list",res['results']),
+       outputs_prefix="Gatewatcher.Users.List",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1850,6 +1887,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_assets_tags_update(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-users-list":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_list(
                     client=client,
                     args=args)
             )
