@@ -344,5 +344,24 @@ script:
     - contextPath: Gatewatcher.Users.Alerts.Get
       description: The list of alerts of a Kerberos user
       type: string
+  - arguments:
+    - description: ISO-8601 date format 
+      name: date_from
+    - description: ISO-8601 date format 
+      name: date_to
+    - description: 15d, yesterday, ... | Not compatible with date_from and date_to parameters 
+      name: since
+    - description: true/false  
+      name: fast
+    - description: Alerts of this Kerberos user name   
+      name: kuser_name
+      required: true
+    name: gcenter103-users-get
+    description: Retrieves a list of the alerts of a Kerberos user
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Users.Get
+      description: Get informations of a Kerberos user
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
