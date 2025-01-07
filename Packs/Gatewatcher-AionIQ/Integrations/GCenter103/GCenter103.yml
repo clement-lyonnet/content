@@ -176,5 +176,15 @@ script:
     - contextPath: test
       description: test
       type: String
+  - arguments:
+    - description: Asset name
+      name: asset_name
+    name: gcenter103-assets-get
+    description: Retrieve specific asset data
+    deprecated: false
+    outputs:
+    - contextPath: test
+      description: test
+      type: String
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

@@ -1076,6 +1076,51 @@ def gcenter103_assets_alerts_get(client: GwClient, args: dict[str, Any]) -> Comm
    )
 
 
+def gcenter103_assets_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "date_from": args.get("date_from"),
+        "date_to": args.get("date_to"),
+        "since": args.get("since"),
+        "fast": args.get("fast"),
+        "asset_name": args.get("asset_name")
+    }
+
+    if "help" in args:
+
+        params['date_from'] = "[date]: ISO-8601 format"
+        params['date_to'] = "[date]: ISO-8601 format"
+        params['since'] = "[15d, yesterday, ...]: not compatible with date_from and date_to "
+        params['fast'] = "[boolean]"
+        params['asset_name'] = "[string]: name of the asset"
+
+        md = tableToMarkdown("gcenter103-assets-get - Help", params)
+
+        return CommandResults(
+           readable_output=md,
+           outputs_prefix="Assets.Get",
+           outputs_key_field='',
+           outputs=md
+       ) 
+
+    asset_name = params['asset_name']
+    del params['asset_name']
+
+    try:        
+        req = client._get(endpoint="/api/v1/assets/"+asset_name, params=params)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-assets-alerts-get",res),
+       outputs_prefix="Assets.Get",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1697,6 +1742,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_assets_alerts_get(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-assets-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_assets_get(
                     client=client,
                     args=args)
             )
