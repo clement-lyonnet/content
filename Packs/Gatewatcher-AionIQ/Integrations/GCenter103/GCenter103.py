@@ -1342,6 +1342,62 @@ def gcenter103_users_note_update(client: GwClient, args: dict[str, Any]) -> Comm
    )
 
 
+def gcenter103_users_tags_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "kuser_name": args.get("kuser_name")
+    }
+
+    try:        
+        req = client._get(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    if len(res['tags']) == 0:
+        return CommandResults(
+            readable_output="# gcenter103-users-tags-get - Empty tags list",
+            outputs_prefix="Gatewatcher.Users.Tags.Get",
+        )
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-users-tags-get",res['tags']),
+       outputs_prefix="Gatewatcher.Users.Tags.Get",
+   )
+
+
+def gcenter103_users_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "tags": args.get("tags"),
+        "kuser_name": args.get("kuser_name")
+    }
+
+    data = {"tags": []}
+    tags = params['tags'].split(',')
+
+    if len(tags) > 0:    
+        for i in range(0, len(tags)):
+            data['tags'].append({'id': int(tags[i])})
+
+    try:        
+        req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags", json_data=data)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-users-tags-update",res['tags']),
+       outputs_prefix="Gatewatcher.Users.Tags.Update",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -2022,7 +2078,20 @@ def main() -> None:
                     client=client,
                     args=args)
             )
-
+        elif command == "gcenter103-users-tags-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_tags_get(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-users-tags-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_tags_update(
+                    client=client,
+                    args=args)
+            )
     except Exception as e:
         return_error( # noqa: F405
             f"Failed to execute {command} command.\nError: {str(e)}"
