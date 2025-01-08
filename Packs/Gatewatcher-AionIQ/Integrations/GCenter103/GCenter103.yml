@@ -131,19 +131,46 @@ script:
     - contextPath: Gatewatcher.Alerts.Note.Remove
       description: The request response code
       type: String
-  - name: gcenter103-alerts-tags-get
-    description: Get tags of an alert by UUID
+  - arguments:
+    - description: The id of the alert to get tags (corresponds to event.id field) 
+      name: id
+      required: true
+    name: gcenter103-alerts-tags-get
+    description: Get the tags of an alert
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.Alerts.Tags.Get
+      description: The tags of the alert
       type: String
-  - name: gcenter103-alerts-tags-update
-    description: Update tags of an alert by UUID
+  - arguments:
+    - description: The id of the alert to add tags (corresponds to event.id field) 
+      name: id
+      required: true
+    - description: An list of tags ids to add to the alert (tags ids starts from 1) 
+      name: tags
+      required: true
+      isArray: true  
+    name: gcenter103-alerts-tags-add
+    description: Add tags to an alert
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.Alerts.Tags.Add
+      description: The tags added to the alert
+      type: String
+  - arguments:
+    - description: The id of the alert to remove tags (corresponds to event.id field) 
+      name: id
+      required: true
+    - description: An list of tags ids to remove to the alert (tags ids starts from 1) 
+      name: tags
+      required: true
+      isArray: true  
+    name: gcenter103-alerts-tags-remove
+    description: Remove tags to an alert
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Alerts.Tags.Remove
+      description: The tags present in the alert
       type: String
   - name: gcenter103-alerts-status-update
     description: Update status of an alert

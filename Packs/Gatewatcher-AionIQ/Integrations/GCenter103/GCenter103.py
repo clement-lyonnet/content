@@ -470,10 +470,9 @@ def gcenter103_alerts_note_add(client: GwClient, args: dict[str, str]) -> Comman
         raise Exception(f"Exception: {str(e)}")
   
     res = req.json()
-    md = tableToMarkdown("gcenter103-alerts-note-add", res)
 
     return CommandResults(
-       readable_output=md,
+       readable_output=tableToMarkdown("gcenter103-alerts-note-add", res),
        outputs_prefix="Gatewatcher.Alerts.Note.Add"
    )
 
@@ -497,64 +496,33 @@ def gcenter103_alerts_note_remove(client: GwClient, args: dict[str, str]) -> Com
    )
 
 
-def gcenter103_alerts_tags_get(client: GwClient, args: dict[str, str]) -> CommandResults:
+def gcenter103_alerts_tags_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "uuid": args.get("uuid")
+        "uuid": args.get("id")
     }
 
-    if "help" in args:
-
-        params['uuid'] = "[string]: UUID of the alert to fetch (uuid corresponds to event.id field)"
-
-        md = tableToMarkdown("gcenter103-alerts-tags-get - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Alerts.Tags.Get",
-           outputs_key_field='',
-           outputs=md
-       ) 
-    
     try:        
         req = client._get(endpoint="/api/v1/alerts/"+params['uuid']+"/tags")
-    except req.status_code != 200:
-        raise Exception("Request failed")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
   
     res = req.json()
-    md = tableToMarkdown("gcenter103-alerts-tags-get", res['tags'])
 
     return CommandResults(
-       readable_output=md,
-       outputs_prefix="Alerts.Tag.Get",
-       outputs_key_field='',
-       outputs=md
+       readable_output=tableToMarkdown("gcenter103-alerts-tags-get", res['tags']),
+       outputs_prefix="Gatewatcher.Alerts.Tags.Get"
    )
 
 
-def gcenter103_alerts_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+def gcenter103_alerts_tags_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "tags": args.get("tags"),
-        "uuid": args.get("uuid")
+        "uuid": args.get("id"),
+        "tags": args.get("tags")
     }
-
-    if "help" in args:
-
-        params['tags'] = "[list[integer]]: alert ID tags to update"
-        params['uuid'] = "[string]: UUID of the alert to fetch (uuid corresponds to event.id field)"
-
-        md = tableToMarkdown("gcenter103-alerts-tags-update - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Alerts.Tags.Update",
-           outputs_key_field='',
-           outputs=md
-       ) 
-   
-    if params['tags'] is None:
-        raise Exception("You must provide at least one tag ID.") 
 
     data = {"tags": []}
     tags = params['tags'].split(',')
@@ -564,19 +532,89 @@ def gcenter103_alerts_tags_update(client: GwClient, args: dict[str, Any]) -> Com
             data['tags'].append({'id': int(tags[i])})
 
     try:        
-        req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/tags", json_data=data)
-    except req.status_code != 200:
-        raise Exception("Request failed")
+        req = client._get(endpoint="/api/v1/alerts/"+params['uuid']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
   
     res = req.json()
+    
+    for i in range(0,len(res['tags'])):
+    
+        data['tags'].append(res['tags'][i])
+    
+    try:        
+        req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/tags", json_data=data)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
 
-    md = tableToMarkdown("gcenter103-alerts-tags-update", res['tags'])
-
+    res = req.json()
+    
     return CommandResults(
-       readable_output=md,
-       outputs_prefix="Alerts.Tag.Update",
-       outputs_key_field='',
-       outputs=md
+       readable_output=tableToMarkdown("gcenter103-alerts-tags-add", res['tags']),
+       outputs_prefix="Gatewatcher.Alerts.Tags.Add"
+   )
+
+
+def gcenter103_alerts_tags_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "uuid": args.get("id"),
+        "tags": args.get("tags")
+    }
+
+    data = {"tags": []}
+    tags = params['tags'].split(',')
+
+    if len(tags) > 0:    
+        for i in range(0, len(tags)):
+            data['tags'].append({'id': int(tags[i])})
+
+    try:        
+        req = client._get(endpoint="/api/v1/alerts/"+params['uuid']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+  
+    res = req.json()
+    data2 = {"tags": []}
+    
+    r = []
+    b = []
+    for i in range(0, len(data['tags'])):
+        r.append(data['tags'][i]['id'])
+
+    for i in range(0, len(res['tags'])):
+        b.append(res['tags'][i]['id'])
+
+    r.sort()
+    b.sort()
+
+    l = []
+
+    for i in b:
+        if i not in r:
+            l.append(i) 
+
+    for i in range(0,len(l)):
+        data2['tags'].append({'id': int(l[i])})
+    
+    try:        
+        req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/tags", json_data=data2)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+    
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-alerts-tags-remove", res['tags']),
+       outputs_prefix="Gatewatcher.Alerts.Tags.Remove"
    )
 
 
@@ -2040,10 +2078,17 @@ def main() -> None:
                     client=client,
                     args=args)
             ) 
-        elif command == "gcenter103-alerts-tags-update":
+        elif command == "gcenter103-alerts-tags-add":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_alerts_tags_update(
+                gcenter103_alerts_tags_add(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-alerts-tags-remove":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_alerts_tags_remove(
                     client=client,
                     args=args)
             ) 
