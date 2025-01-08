@@ -357,11 +357,25 @@ script:
       name: kuser_name
       required: true
     name: gcenter103-users-get
-    description: Retrieves a list of the alerts of a Kerberos user
+    description: Retrieves Kerberos user data
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Users.Get
       description: Get informations of a Kerberos user
+      type: string
+  - arguments:
+    - description: Note content to update
+      name: note
+      required: true
+    - description: Kerberos user name to update note
+      name: kuser_name
+      required: true
+    name: gcenter103-users-note-update
+    description: Update the note of a Kerberos user
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Users.Note.Update
+      description: The updated note
       type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

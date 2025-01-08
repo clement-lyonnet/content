@@ -1318,6 +1318,30 @@ def gcenter103_users_get(client: GwClient, args: dict[str, Any]) -> CommandResul
    )
 
 
+def gcenter103_users_note_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "note": args.get("note"),
+        "kuser_name": args.get("kuser_name")
+    }
+
+    data = {"note": params['note']}
+    
+    try:        
+        req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/note", json_data=data)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-users-note-update",res),
+       outputs_prefix="Gatewatcher.Users.Note.Update",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -1988,6 +2012,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_users_get(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-users-note-update":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_note_update(
                     client=client,
                     args=args)
             )
