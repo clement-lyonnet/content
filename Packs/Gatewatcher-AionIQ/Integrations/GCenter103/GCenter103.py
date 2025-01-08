@@ -1164,7 +1164,7 @@ def gcenter103_assets_get(client: GwClient, args: dict[str, Any]) -> CommandResu
    )
 
 
-def gcenter103_assets_note_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+def gcenter103_assets_note_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
         "note": args.get("note"),
@@ -1183,8 +1183,27 @@ def gcenter103_assets_note_update(client: GwClient, args: dict[str, Any]) -> Com
     res = req.json()
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-assets-note-update",res),
-       outputs_prefix="Gatewatcher.Assets.Note.Update",
+       readable_output=tableToMarkdown("gcenter103-assets-note-add",res),
+       outputs_prefix="Gatewatcher.Assets.Note.Add",
+   )
+
+
+def gcenter103_assets_note_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "asset_name": args.get("asset_name")
+    }
+
+    try:        
+        req = client._delete(endpoint="/api/v1/assets/"+params['asset_name']+"/note")
+        if req.status_code != 204:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    return CommandResults(
+       readable_output="# gcenter103-assets-note-remove - Note removed of asset: "+params['asset_name'],
+       outputs_prefix="Gatewatcher.Assets.Note.Remove"
    )
 
 
@@ -2148,10 +2167,17 @@ def main() -> None:
                     client=client,
                     args=args)
             )
-        elif command == "gcenter103-assets-note-update":
+        elif command == "gcenter103-assets-note-add":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_assets_note_update(
+                gcenter103_assets_note_add(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-assets-note-remove":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_assets_note_remove(
                     client=client,
                     args=args)
             )

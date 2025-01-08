@@ -146,12 +146,12 @@ script:
     - description: The id of the alert to add tags (corresponds to event.id field) 
       name: id
       required: true
-    - description: An list of tags ids to add to the alert (tags ids starts from 1) 
+    - description: A list of tags ids to add to the alert (tags ids starts from 1) 
       name: tags
       required: true
       isArray: true  
     name: gcenter103-alerts-tags-add
-    description: Add tags to an alert
+    description: Add or update tags of an alert
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Alerts.Tags.Add
@@ -161,7 +161,7 @@ script:
     - description: The id of the alert to remove tags (corresponds to event.id field) 
       name: id
       required: true
-    - description: An list of tags ids to remove to the alert (tags ids starts from 1) 
+    - description: A list of tags ids to remove to the alert (tags ids starts from 1) 
       name: tags
       required: true
       isArray: true  
@@ -234,15 +234,28 @@ script:
   - arguments:
     - description: Asset name
       name: asset_name
+      required: true
     - description: Note to update
       name: note
-    name: gcenter103-assets-note-update
-    description: Update an asset note
+      required: true
+    name: gcenter103-assets-note-add
+    description: Add or update a note to an asset
     deprecated: false
     outputs:
-    - contextPath: Gatewatcher.Assets.Note.Update
-      description: The updated note
-      type: string
+    - contextPath: Gatewatcher.Assets.Note.Add
+      description: The note added or updated
+      type: String
+  - arguments:
+    - description: Asset name
+      name: asset_name
+      required: true
+    name: gcenter103-assets-note-remove
+    description: Remove a note of an asset
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Assets.Note.Remove
+      description: The request response code 
+      type: String
   - arguments:
     - description: Asset name
       name: asset_name
