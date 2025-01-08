@@ -1434,12 +1434,12 @@ def gcenter103_users_get(client: GwClient, args: dict[str, Any]) -> CommandResul
     res = req.json()
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-users-alerts-get",res),
+       readable_output=tableToMarkdown("gcenter103-users-get",res),
        outputs_prefix="Gatewatcher.Users.Get",
    )
 
 
-def gcenter103_users_note_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+def gcenter103_users_note_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
         "note": args.get("note"),
@@ -1458,8 +1458,27 @@ def gcenter103_users_note_update(client: GwClient, args: dict[str, Any]) -> Comm
     res = req.json()
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-users-note-update",res),
-       outputs_prefix="Gatewatcher.Users.Note.Update",
+       readable_output=tableToMarkdown("gcenter103-users-note-add",res),
+       outputs_prefix="Gatewatcher.Users.Note.Add",
+   )
+
+
+def gcenter103_users_note_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "kuser_name": args.get("kuser_name")
+    }
+
+    try:        
+        req = client._delete(endpoint="/api/v1/kusers/"+params['kuser_name']+"/note")
+        if req.status_code != 204:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    return CommandResults(
+       readable_output="# gcenter103-users-note-remove - Note of: "+params['kuser_name']+" deleted",
+       outputs_prefix="Gatewatcher.Users.Note.Remove",
    )
 
 
@@ -2282,10 +2301,17 @@ def main() -> None:
                     client=client,
                     args=args)
             )
-        elif command == "gcenter103-users-note-update":
+        elif command == "gcenter103-users-note-add":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_users_note_update(
+                gcenter103_users_note_add(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-users-note-remove":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_note_remove(
                     client=client,
                     args=args)
             )

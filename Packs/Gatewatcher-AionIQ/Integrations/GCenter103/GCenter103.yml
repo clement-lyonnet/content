@@ -438,19 +438,30 @@ script:
       description: Get informations of a Kerberos user
       type: string
   - arguments:
-    - description: Note content to update
+    - description: Note content to add/update
       name: note
       required: true
-    - description: Kerberos user name to update note
+    - description: Kerberos user name
       name: kuser_name
       required: true
-    name: gcenter103-users-note-update
-    description: Update the note of a Kerberos user
+    name: gcenter103-users-note-add
+    description: Add or update the note of a Kerberos user
     deprecated: false
     outputs:
-    - contextPath: Gatewatcher.Users.Note.Update
-      description: The updated note
-      type: string
+    - contextPath: Gatewatcher.Users.Note.Add
+      description: Added/updated note
+      type: String
+  - arguments:
+    - description: Kerberos user name
+      name: kuser_name
+      required: true
+    name: gcenter103-users-note-remove
+    description: Remove the note of a Kerberos user
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Users.Note.Remove
+      description: Request response code
+      type: String
   - arguments:
     - description: Kerberos user name to get tags of
       name: kuser_name
