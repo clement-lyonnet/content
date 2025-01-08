@@ -1398,6 +1398,68 @@ def gcenter103_users_tags_update(client: GwClient, args: dict[str, Any]) -> Comm
    )
 
 
+def gcenter103_yara_rules_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "status": args.get("status"),
+        "yara_file": args.get("yara_file"),
+        "yara_source_file": args.get("yara_source_file"),
+        "export": args.get("export")
+    }
+
+    data = {"enabled": params['status'],
+            "filename": params['yara_source_file'],
+            "file": params['yara_file']
+            }
+
+    del params['status']
+    del params['yara_file']
+    del params['yara_source_file']
+
+    try:        
+        req = client._put(endpoint="/api/v1/malcore/yara/settings", json_data=data, params=params)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-yara-rules-add",res),
+       outputs_prefix="Gatewatcher.Yara.Rules.Add",
+   )
+
+
+def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "sha256": args.get("sha256"),
+        "comment": args.get("comment"),
+        "threat": args.get("threat"),
+        "list_type": args.get("list_type")
+    }
+
+    data = {"sha256": params['sha256'],
+            "comment": params['comment'],
+            "threat": params['threat']
+            }
+
+    try:        
+        req = client._post(endpoint="/api/v1/malcore/hash-"+params['list_type']+"-list", json_data=data)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-malcore-fingerprints-add",res),
+       outputs_prefix="Gatewatcher.Malcore.Fingerprints.Add",
+   )
+
+
 def convert_event_severity(gw_sev: int) -> float:
 
     severity_map = {
@@ -2092,6 +2154,21 @@ def main() -> None:
                     client=client,
                     args=args)
             )
+        elif command == "gcenter103-yara-rules-add":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_yara_rules_add(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-malcore-fingerprints-add":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_malcore_fingerprints_add(
+                    client=client,
+                    args=args)
+            )
+
     except Exception as e:
         return_error( # noqa: F405
             f"Failed to execute {command} command.\nError: {str(e)}"

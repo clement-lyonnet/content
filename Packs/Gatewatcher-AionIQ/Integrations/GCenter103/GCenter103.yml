@@ -403,5 +403,40 @@ script:
     - contextPath: Gatewatcher.Users.Tags.Update
       description: The updated tags associated to the Kerberos user
       type: string
+  - arguments:
+    - description: Set Yara enabled or not with true/false
+      name: status
+      required: true
+    - description: The Yara file 
+      name: yara_file
+    - description: The Yara source file
+      name: yara_source_file
+    - description: true/false
+      name: export
+    name: gcenter103-yara-rules-add
+    description: Add Yara rules to Malcore
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Yara.Rules.Add
+      description: The updated Yara settings
+      type: string
+  - arguments:
+    - description: The SHA256 to add
+      name: sha256
+      required: true
+    - description: An attached comment (200 chars max)
+      name: comment
+    - description: Name of the threat for reference (100 chars max)
+      name: threat
+    - description: The type of list given, possible values are 'white', 'black'
+      name: list_type
+      required: true
+    name: gcenter103-malcore-fingerprints-add
+    description: Add fingerprints to white or black list to Malcore
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Malcore.Fingerprints.Add
+      description: Hash list informations
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
