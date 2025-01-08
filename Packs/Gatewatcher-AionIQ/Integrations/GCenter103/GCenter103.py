@@ -453,42 +453,47 @@ def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResu
    )
 
 
-def gcenter103_alerts_note_update(client: GwClient, args: dict[str, str]) -> CommandResults:
+def gcenter103_alerts_note_add(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
         "note": args.get("note"),
-        "uuid": args.get("uuid")
+        "uuid": args.get("id")
     }
-
-    if "help" in args:
-
-        params['note'] = "[string]: note to add"
-        params['uuid'] = "[string]: UUID of the alert to fetch (uuid corresponds to event.id field)"
-
-        md = tableToMarkdown("gcenter103-alerts-note-update - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Note.Update",
-           outputs_key_field='',
-           outputs=md
-       ) 
 
     data = {"note": params['note']}
     
     try:        
         req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/note",data=data)
-    except req.status_code != 200:
-        raise Exception("Request failed")
+        if req.status_code != 200:
+            raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")
   
     res = req.json()
-    md = tableToMarkdown("gcenter103-alerts-note-update", res)
+    md = tableToMarkdown("gcenter103-alerts-note-add", res)
 
     return CommandResults(
        readable_output=md,
-       outputs_prefix="Alerts.Note.Update",
-       outputs_key_field='',
-       outputs=md
+       outputs_prefix="Gatewatcher.Alerts.Note.Add"
+   )
+
+
+def gcenter103_alerts_note_remove(client: GwClient, args: dict[str, str]) -> CommandResults:
+
+    params = {
+        "uuid": args.get("id")
+    }
+
+    try:        
+        req = client._delete(endpoint="/api/v1/alerts/"+params['uuid']+"/note")
+        if req.status_code != 204:
+            raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")
+  
+    return CommandResults(
+       readable_output="# gcenter103-alerts-note-remove - Note removed of alert: "+params['uuid'],
+       outputs_prefix="Gatewatcher.Alerts.Note.Remove"
    )
 
 
@@ -2014,10 +2019,17 @@ def main() -> None:
                     client=client,
                     args=args)
             ) 
-        elif command == "gcenter103-alerts-note-update":
+        elif command == "gcenter103-alerts-note-add":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_alerts_note_update(
+                gcenter103_alerts_note_add(
+                    client=client,
+                    args=args)
+            ) 
+        elif command == "gcenter103-alerts-note-remove":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_alerts_note_remove(
                     client=client,
                     args=args)
             ) 
