@@ -259,13 +259,14 @@ script:
   - arguments:
     - description: Asset name
       name: asset_name
+      required: true
     name: gcenter103-assets-tags-get
     description: Get the tags of an asset
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Assets.Tags.Get
       description: The tags of the asset
-      type: string
+      type: String
   - arguments:
     - description: Asset name
       name: asset_name
@@ -274,13 +275,28 @@ script:
       name: tags
       isArray: true
       required: true
-    name: gcenter103-assets-tags-update
-    description: Update the tags of an asset
+    name: gcenter103-assets-tags-add
+    description: Add or update the tags of an asset
     deprecated: false
     outputs:
-    - contextPath: Gatewatcher.Assets.Tags.Update
-      description: The updated tags of the asset
-      type: string
+    - contextPath: Gatewatcher.Assets.Tags.Add
+      description: Added or updated tags of the asset
+      type: String
+  - arguments:
+    - description: Asset name
+      name: asset_name
+      required: true
+    - description: Tags
+      name: tags
+      isArray: true
+      required: true
+    name: gcenter103-assets-tags-remove
+    description: Remove tags of an asset
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Assets.Tags.Remove
+      description: Removed tags of the asset
+      type: String
   - arguments:
     - description: A search term
       name: search
