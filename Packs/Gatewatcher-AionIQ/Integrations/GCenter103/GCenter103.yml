@@ -172,8 +172,47 @@ script:
       - retrohunt
       - shellcode_detect
       - sigflow_alert 
-    - description: Filter alert by MITRE tactic name, possible values are Collection, Collection (ICS), Collection (Mobile), Command and Control, Command and Control (ICS), Command and Control (Mobile), Credential Access, Credential Access (Mobile), Defense Evasion, Defense Evasion (Mobile), Discovery, Discovery (ICS), Discovery (Mobile), Evasion, Execution, Execution (ICS), Execution (Mobile), Exfiltration, Exfiltration (Mobile), Impact, Impact (ICS), Impact (Mobile), Impair Process Control, Inhibit Response Function, Initial Access, Initial Access (ICS), Initial Access (Mobile), Lateral Movement, Lateral Movement (ICS), Lateral Movement (Mobile), Persistence, Persistence (ICS), Persistence (Mobile), Privilege Escalation, Privilege Escalation (ICS), Privilege Escalation (Mobile), Reconnaissance, Resource Development
+    - auto: PREDEFINED
+      description: Filter alert by MITRE tactic name 
       name: mitre_tactic_name
+      predefined: 
+      - Collection
+      - Collection (ICS)
+      - Collection (Mobile)
+      - Command and Control
+      - Command and Control (ICS)
+      - Command and Control (Mobile)
+      - Credential Access
+      - Credential Access (Mobile)
+      - Defense Evasion
+      - Defense Evasion (Mobile)
+      - Discovery, Discovery (ICS)
+      - Discovery (Mobile)
+      - Evasion
+      - Execution
+      - Execution (ICS)
+      - Execution (Mobile)
+      - Exfiltration
+      - Exfiltration (Mobile)
+      - Impact
+      - Impact (ICS)
+      - Impact (Mobile) 
+      - Impair Process Control
+      - Inhibit Response Function
+      - Initial Access 
+      - Initial Access (ICS)
+      - Initial Access (Mobile)
+      - Lateral Movement 
+      - Lateral Movement (ICS)
+      - Lateral Movement (Mobile)
+      - Persistence
+      - Persistence (ICS)
+      - Persistence (Mobile)
+      - Privilege Escalation
+      - Privilege Escalation (ICS)
+      - Privilege Escalation (Mobile)
+      - Reconnaissance
+      - Resource Development
     - description: Hostnames
       name: hostname
       isArray: true
@@ -188,8 +227,13 @@ script:
       isArray: true
     - description: User note content
       name: note
-    - description: Filter alerts on their state, possible values are closed, mute, open
+    - auto: PREDEFINED
+      description: Filter alerts on their state
       name: state
+      predefined:
+      - closed
+      - mute
+      - open
     - description: A search term
       name: search
     - description: A page to select in the results set 
@@ -203,12 +247,16 @@ script:
     - contextPath: Gatewatcher.Alerts.List
       description: List of alerts
       type: String
-  - name: gcenter103-alerts-get
-    description: Get an alert by UUID
+  - arguments:
+    - description: id of the alert
+      name: id
+      required: true
+    name: gcenter103-alerts-get
+    description: Get an alert with its id (corresponds to event.id field)
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.Alerts.Get
+      description: The alert fetched
       type: String
   - arguments:
     - description: The note to set on the alert
@@ -276,11 +324,174 @@ script:
     - contextPath: Gatewatcher.Alerts.Tags.Remove
       description: The tags present in the alert
       type: String
-  - name: gcenter103-alerts-status-update
+  - arguments:
+    - description: A note to add/update
+      name: note_u
+    - description: Tags to add/update
+      name: tag_u
+      isArray: true
+    - description: ISO-8601 date format 
+      name: date_from
+    - description: ISO-8601 date format 
+      name: date_to
+    - auto: PREDEFINED
+      description: Not compatible with date_from and date_to parameters 
+      name: since
+      predefined:
+      - 15d
+      - yesterday
+    - description: List of alerts IDs
+      name: ids
+      isArray: true
+    - description: List of alerts IDs to exclude
+      name: excluded_ids
+      isArray: true
+    - auto: PREDEFINED
+      description: filter on acknowledgement status
+      name: acknowledged
+      predefined:
+      - true
+      - false
+    - description: List of GCap IDs, first GCap has ID 1
+      name: gcap_id
+      isArray: true
+    - description: IPs addresses related of alerts
+      name: ip
+      isArray: true
+    - description: Source IPs addresses of alerts
+      name: src_ip
+      isArray: true
+    - description: Destination IPs addresses of alerts
+      name: dest_ip
+      isArray: true
+    - description: Minimal risk value
+      name: risk_min
+    - description: Maximal risk value
+      name: risk_max
+    - description: Filter alerts on their signature
+      name: name
+      isArray: true
+    - description: Filter alerts on their description
+      name: description
+    - description: User tags
+      name: tag
+      isArray: true
+    - auto: PREDEFINED
+      description: true means users with no tags
+      name: no_tag
+      predefined:
+      - true
+      - false 
+    - description: Exclude alerts with a list of tags (logical OR between the tags)
+      name: excluded_tags 
+      isArray: true
+    - auto: PREDEFINED
+      description: Sort with a filter
+      name: sort_by
+      predefined:
+      - date
+      - -date
+      - risk
+      - -risk
+      - name
+      - -name
+    - auto: PREDEFINED
+      description: Filter alerts on engines
+      name: type
+      predefined:
+      - active_cti
+      - beacon_detect
+      - dga_detect
+      - malcore
+      - malcore_retroanalyzer
+      - malicious_powershell_detect
+      - ransomware_detect
+      - retrohunt
+      - shellcode_detect
+      - sigflow_alert 
+    - auto: PREDEFINED
+      description: Filter alert by MITRE tactic name 
+      name: mitre_tactic_name
+      predefined: 
+      - Collection
+      - Collection (ICS)
+      - Collection (Mobile)
+      - Command and Control
+      - Command and Control (ICS)
+      - Command and Control (Mobile)
+      - Credential Access
+      - Credential Access (Mobile)
+      - Defense Evasion
+      - Defense Evasion (Mobile)
+      - Discovery, Discovery (ICS)
+      - Discovery (Mobile)
+      - Evasion
+      - Execution
+      - Execution (ICS)
+      - Execution (Mobile)
+      - Exfiltration
+      - Exfiltration (Mobile)
+      - Impact
+      - Impact (ICS)
+      - Impact (Mobile) 
+      - Impair Process Control
+      - Inhibit Response Function
+      - Initial Access 
+      - Initial Access (ICS)
+      - Initial Access (Mobile)
+      - Lateral Movement 
+      - Lateral Movement (ICS)
+      - Lateral Movement (Mobile)
+      - Persistence
+      - Persistence (ICS)
+      - Persistence (Mobile)
+      - Privilege Escalation
+      - Privilege Escalation (ICS)
+      - Privilege Escalation (Mobile)
+      - Reconnaissance
+      - Resource Development
+    - description: Hostnames
+      name: hostname
+      isArray: true
+    - description: Source hostnames
+      name: src_hostname
+      isArray: true
+    - description: Destination hostnames
+      name: dest_hostname
+      isArray: true
+    - description: Username filter
+      name: username
+      isArray: true
+    - description: User note content
+      name: note
+    - auto: PREDEFINED
+      description: Filter alerts on their state
+      name: state
+      predefined:
+      - closed
+      - mute
+      - open
+    - description: A search term
+      name: search
+    - auto: PREDEFINED
+      description: The action to perform on the alerts
+      name: action
+      predefined:
+      - acknowledge
+      - open
+      - tag
+      - untag
+      - note
+      - open_related
+      - close_related
+      - mute_signature
+      - unmute_signature
+      required: true
+    name: gcenter103-alerts-status-update
     description: Update status of an alert
     deprecated: false
     outputs:
-    - contextPath: test
+    - contextPath: Gatewatcher.Alerts.Status.Update
       description: test
       type: String
   - name: gcenter103-raw-alerts-get
