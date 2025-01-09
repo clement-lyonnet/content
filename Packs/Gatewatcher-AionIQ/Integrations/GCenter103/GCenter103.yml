@@ -516,19 +516,32 @@ script:
     - contextPath: Gatewatcher.Raw.Alerts.File.Get
       description: The zip file
       type: String
-  - name: gcenter103-file-scan
+  - arguments:
+    - auto: PREDEFINED
+      description: Engine that will scan the file
+      name: engine
+      required: true
+      predefined: 
+      - malcore
+      - powershell
+      - shellcode
+    name: gcenter103-file-scan
     description: Scan a file on a selected engine 
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.File.Scan
+      description: Results of the scan
       type: String
-  - name: gcenter103-file-scan-result-get
+  - arguments:
+    - description: id of a previous file scan
+      name: id
+      required: true
+    name: gcenter103-file-scan-result-get
     description: Retrieve previous scan with its id
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.File.Scan.Result.Get
+      description: Result of the file scan
       type: String
   - name: gcenter103-assets-list
     description: List assets

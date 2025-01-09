@@ -658,23 +658,6 @@ def gcenter103_file_scan(client: GwClient, args: dict[str, str]) -> CommandResul
         "engine": args.get("engine")
     }
 
-    if "help" in args:
-
-        params['engine'] = "[string]: engine to perform scan on the latest uploaded file marked as note\n"\
-                           "Possible values are: malcore, powershell, shellcode"
-
-        md = tableToMarkdown("gcenter103-file-scan - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="File.Scan",
-           outputs_key_field='',
-           outputs=md
-       ) 
-
-    if params['engine'] is None:
-        raise Exception("You must provide an engine")
-
     demisto.log("Make sure to upload the file to scan before execution of the command and select 'Mark as note'")
     last_file_idx = len(demisto.context()['File'])
     fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
@@ -693,7 +676,7 @@ def gcenter103_file_scan(client: GwClient, args: dict[str, str]) -> CommandResul
 
     return CommandResults(
        readable_output=tableToMarkdown("gcenter103-file-scan results of "+str(params['engine']),res),
-       outputs_prefix="File.Scan",
+       outputs_prefix="Gatewatcher.File.Scan",
    )
 
 
@@ -702,22 +685,6 @@ def gcenter103_file_scan_result_get(client: GwClient, args: dict[str, str]) -> C
     params = {
         "id": args.get("id")
     }
-
-    if "help" in args:
-
-        params['id'] = "[integer]: id of previous GScan analysis to retrieve"
-
-        md = tableToMarkdown("gcenter103-file-scan-result-get - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="File.Scan.Result.Get",
-           outputs_key_field='',
-           outputs=md
-       ) 
-
-    if params['id'] is None:
-        raise Exception("You must provide an id")
 
     try:        
         req = client._get(endpoint="/api/v1/gscan/histories/"+params['id'])
@@ -730,7 +697,7 @@ def gcenter103_file_scan_result_get(client: GwClient, args: dict[str, str]) -> C
 
     return CommandResults(
        readable_output=tableToMarkdown("gcenter103-file-scan-result-get",res),
-       outputs_prefix="File.Scan.Result.Get",
+       outputs_prefix="Gatewatcher.File.Scan.Result.Get",
    )
 
 
