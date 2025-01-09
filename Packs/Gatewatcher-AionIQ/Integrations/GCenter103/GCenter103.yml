@@ -504,6 +504,16 @@ script:
       description: Tags of the Kerberos user
       type: String
   - arguments:
+    - description: true/false
+      name: export
+    name: gcenter103-yara-rules-get
+    description: Get Yara settings
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Yara.Rules.Get
+      description: The Yara settings
+      type: String
+  - arguments:
     - description: Set Yara enabled or not with true/false
       name: status
       required: true
@@ -519,7 +529,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Yara.Rules.Add
       description: The updated Yara settings
-      type: string
+      type: String
   - arguments:
     - description: The SHA256 to add
       name: sha256

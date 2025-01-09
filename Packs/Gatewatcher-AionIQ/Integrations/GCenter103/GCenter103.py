@@ -1622,6 +1622,27 @@ def gcenter103_users_tags_remove(client: GwClient, args: dict[str, Any]) -> Comm
    )
 
 
+def gcenter103_yara_rules_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "export": args.get("export")
+    }
+
+    try:        
+        req = client._get(endpoint="/api/v1/malcore/yara/settings")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-yara-rules-get",res),
+       outputs_prefix="Gatewatcher.Yara.Rules.Get",
+   )
+
+
 def gcenter103_yara_rules_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
@@ -2417,6 +2438,13 @@ def main() -> None:
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_users_tags_remove(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-yara-rules-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_yara_rules_get(
                     client=client,
                     args=args)
             )
