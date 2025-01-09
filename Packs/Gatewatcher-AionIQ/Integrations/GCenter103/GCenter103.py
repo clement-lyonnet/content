@@ -725,55 +725,6 @@ def gcenter103_assets_list(client: GwClient, args: dict[str, Any]) -> CommandRes
         "no_tag": args.get("no_tag")
     }
 
-    if "help" in args:
-
-        params['search'] = "[string]: asset with given search term"
-        params['page'] = "[integer]: select a page number in the results set"
-        params['page_size'] = "[integer]: number of results per page"
-        params['date_from'] = "[date]: ISO-8601 format"
-        params['date_to'] = "[date]: ISO-8601 format"
-        params['since'] = "[15d, yesterday, ...]: not compatible with date_from and date_to "
-        params['fast'] = "[boolean]: speed of query fetch, needs to be employed with 'since' parameter"
-        params['gcap_id'] = "[integer]: assets of given GCap IDs, 1st GCap has ID 1"
-        params['sort_by'] = "[string]: possible values are:\nrisk, -risk, name, -name"
-        params['risk_min'] = "[number]: assets with greater risk than the given value"
-        params['risk_max'] = "[number]: assets with lower risk than the given value"
-        params['name'] = "[list[string]]: assets containing in their name the given values"
-        params['type'] = "[string]: type of asset, possible values are:\n"\
-                         "Smartphone, "\
-                         "IoT, "\
-                         "Laptop, "\
-                         "Videogame, "\
-                         "TV, "\
-                         "Other, "\
-                         "Firewall, "\
-                         "Hypervisor, "\
-                         "IPBX, "\
-                         "Printer, "\
-                         "Proxy, "\
-                         "Router, "\
-                         "Server, "\
-                         "Storage, "\
-                         "Virtual Machine, "\
-                         "WAF, "\
-                         "WiFi, "\
-                         "unknown"
-        params['os_firmware'] = "[list[string]]: assets of the Operating System/Firmware"
-        params['ip'] = "[list[string]]: assets related of given IPs"
-        params['mac_address'] = "[list[string]]: assets related of given MACs"
-        params['tag'] = "[list[string]]: assets with given tag labels"
-        params['note'] = "[string]: assets with given note content"
-        params['no_tag'] = "[boolean]: set on true, gives assets with no tags affected"
-
-        md = tableToMarkdown("gcenter103-assets-list - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Assets.List",
-           outputs_key_field='',
-           outputs=md
-       ) 
-
     try:        
         req = client._get(endpoint="/api/v1/assets/", params=params)
         if req.status_code != 200:
@@ -785,7 +736,7 @@ def gcenter103_assets_list(client: GwClient, args: dict[str, Any]) -> CommandRes
 
     return CommandResults(
        readable_output=tableToMarkdown("gcenter103-assets-list",res['results']),
-       outputs_prefix="Assets.List",
+       outputs_prefix="Gatewatcher.Assets.List",
    )
 
 
