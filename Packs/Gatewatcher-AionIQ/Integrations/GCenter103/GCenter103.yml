@@ -788,14 +788,31 @@ script:
       description: Get alerts for an asset
       type: String
   - arguments:
+    - description: ISO-8601 date format 
+      name: date_from
+    - description: ISO-8601 date format 
+      name: date_to
+    - auto: PREDEFINED
+      description: Not compatible with date_from and date_to parameters 
+      name: since
+      predefined:
+      - 15d
+      - yesterday
+    - auto: PREDEFINED
+      description: Activate fast query 
+      name: fast
+      predefined:
+      - true
+      - false
     - description: Asset name
       name: asset_name
+      required: true
     name: gcenter103-assets-get
     description: Retrieve specific asset data
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.Assets.Get
+      description: Asset data
       type: String
   - arguments:
     - description: Asset name

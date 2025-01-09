@@ -802,23 +802,6 @@ def gcenter103_assets_get(client: GwClient, args: dict[str, Any]) -> CommandResu
         "asset_name": args.get("asset_name")
     }
 
-    if "help" in args:
-
-        params['date_from'] = "[date]: ISO-8601 format"
-        params['date_to'] = "[date]: ISO-8601 format"
-        params['since'] = "[15d, yesterday, ...]: not compatible with date_from and date_to "
-        params['fast'] = "[boolean]"
-        params['asset_name'] = "[string]: name of the asset"
-
-        md = tableToMarkdown("gcenter103-assets-get - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Assets.Get",
-           outputs_key_field='',
-           outputs=md
-       ) 
-
     asset_name = params['asset_name']
     del params['asset_name']
 
@@ -833,7 +816,7 @@ def gcenter103_assets_get(client: GwClient, args: dict[str, Any]) -> CommandResu
 
     return CommandResults(
        readable_output=tableToMarkdown("gcenter103-assets-alerts-get",res),
-       outputs_prefix="Assets.Get",
+       outputs_prefix="Gatewatcher.Assets.Get",
    )
 
 
