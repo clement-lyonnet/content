@@ -611,23 +611,7 @@ def gcenter103_raw_alerts_get(client: GwClient, args: dict[str, str]) -> Command
     params = {
         "id": args.get("id")
     }
-
-    if "help" in args:
-
-        params['id'] = "[string]: ID of the alert to fetch (corresponds to event.id field)"
-
-        md = tableToMarkdown("gcenter103-raw-alerts-get - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Alerts.Raw.Alerts.Get",
-           outputs_key_field='',
-           outputs=md
-       ) 
     
-    if params['id'] is None:
-        raise Exception("You must provide an alert id")
-   
     try:        
         req = client._get(endpoint="/api/v1/raw-alerts/"+params['id'])
         if req.status_code != 200:
@@ -637,13 +621,9 @@ def gcenter103_raw_alerts_get(client: GwClient, args: dict[str, str]) -> Command
 
     res = req.json()
 
-    md = tableToMarkdown("gcenter103-raw-alerts-get", res)
-
     return CommandResults(
-       readable_output=md,
-       outputs_prefix="Raw.Alerts.Get",
-       outputs_key_field='',
-       outputs=md
+       readable_output=tableToMarkdown("gcenter103-raw-alerts-get", res),
+       outputs_prefix="Gatewatcher.Raw.Alerts.Get"
    )
 
 
@@ -653,22 +633,6 @@ def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> Co
         "id": args.get("id")
     }
 
-    if "help" in args:
-
-        params['id'] = "[string]: ID of the alert to fetch the file from (corresponds to event.id field)"
-
-        md = tableToMarkdown("gcenter103-raw-alerts-file-get - Help", params)
-
-        return CommandResults(
-           readable_output=md,
-           outputs_prefix="Alerts.Raw.Alerts.File.Get",
-           outputs_key_field='',
-           outputs=md
-       ) 
-    
-    if params['id'] is None:
-        raise Exception("You must provide an alert id")
-   
     try:        
         req = client._get(endpoint="/api/v1/raw-alerts/"+params['id']+"/file")
         if req.status_code != 200:
@@ -683,8 +647,8 @@ def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> Co
     return_results(fileResult(filename, file_content))
 
     return CommandResults(
-       readable_output="# gcenter103-raw-alerts-file-get: Dumped ZIP file",
-       outputs_prefix="Raw.Alerts.File.Get",
+       readable_output="# gcenter103-raw-alerts-file-get: Dumped zip file",
+       outputs_prefix="Gatewatcher.Raw.Alerts.File.Get",
    )
 
 

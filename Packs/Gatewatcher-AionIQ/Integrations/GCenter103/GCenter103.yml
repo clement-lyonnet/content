@@ -494,19 +494,27 @@ script:
     - contextPath: Gatewatcher.Alerts.Status.Update
       description: test
       type: String
-  - name: gcenter103-raw-alerts-get
-    description: Get a raw alert by id
+  - arguments:
+    - description: id of the alert to fetch (corresponds to event.id field) 
+      name: id
+      required: true
+    name: gcenter103-raw-alerts-get
+    description: Get a raw alert with its id
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.Raw.Alerts.Get
+      description: The alert content
       type: String
-  - name: gcenter103-raw-alerts-file-get
+  - arguments:
+    - description: id of the alert to fetch (corresponds to event.id field) 
+      name: id
+      required: true
+    name: gcenter103-raw-alerts-file-get
     description: Get a file attached to an alert with its id
     deprecated: false
     outputs:
-    - contextPath: test
-      description: test
+    - contextPath: Gatewatcher.Raw.Alerts.File.Get
+      description: The zip file
       type: String
   - name: gcenter103-file-scan
     description: Scan a file on a selected engine 
