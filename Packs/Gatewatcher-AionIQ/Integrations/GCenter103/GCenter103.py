@@ -1332,6 +1332,33 @@ def gcenter103_yara_rules_add(client: GwClient, args: dict[str, Any]) -> Command
    )
 
 
+def gcenter103_malcore_fingerprints_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "ordering": args.get("ordering"),
+        "page": args.get("page"),
+        "page_size": args.get("page_size"),
+        "list_type": args.get("list_type")
+    }
+
+    list_type = params['list_type']
+    del params['list_type']
+    
+    try:        
+        req = client._post(endpoint="/api/v1/malcore/hash-"+list_type+"-list", params=params)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-malcore-fingerprints-get",res['results']),
+       outputs_prefix="Gatewatcher.Malcore.Fingerprints.Get",
+   )
+
+
 def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
@@ -1342,13 +1369,18 @@ def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) 
     }
 
     data = {"sha256": params['sha256'],
-            "comment": params['comment'],
-            "threat": params['threat']
-            }
+            "comment": "",
+            "threat": ""}
+    
+    if params['comment'] is not None:
+        data['comment'] = params['comment']
 
+    if params['threat'] is not None:
+        data['threat'] = params['threat']
+    
     try:        
         req = client._post(endpoint="/api/v1/malcore/hash-"+params['list_type']+"-list", json_data=data)
-        if req.status_code != 200:
+        if req.status_code != 201:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
     except Exception as e:
         raise Exception(f"Exception: {str(e)}")   
@@ -1356,8 +1388,32 @@ def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) 
     res = req.json()
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-malcore-fingerprints-add",res),
+       readable_output=tableToMarkdown("gcenter103-malcore-fingerprints-add",res['results']),
        outputs_prefix="Gatewatcher.Malcore.Fingerprints.Add",
+   )
+
+
+def gcenter103_malcore_fingerprints_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "sha256": args.get("sha256"),
+        "list_type": args.get("list_type")
+    }
+
+    try:        
+        req = client._delete(endpoint="/api/v1/malcore/hash-"+params['list_type']+"-list/"+params['sha256'])
+        if req.status_code != 204:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    return CommandResults(
+       readable_output="# gcenter103-malcore-fingerprints-remove\n"\
+           "## Hash: "+params['sha256']+"\n"+
+       "## Sucessfully deleted from "+
+       params['list_type']+
+       " list",
+       outputs_prefix="Gatewatcher.Malcore.Fingerprints.Remove",
    )
 
 
@@ -2111,10 +2167,24 @@ def main() -> None:
                     client=client,
                     args=args)
             )
+        elif command == "gcenter103-malcore-fingerprints-get":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_malcore_fingerprints_get(
+                    client=client,
+                    args=args)
+            )
         elif command == "gcenter103-malcore-fingerprints-add":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
                 gcenter103_malcore_fingerprints_add(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-malcore-fingerprints-remove":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_malcore_fingerprints_remove(
                     client=client,
                     args=args)
             )

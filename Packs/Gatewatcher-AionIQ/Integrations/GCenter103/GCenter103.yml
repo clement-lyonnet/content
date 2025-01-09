@@ -1194,8 +1194,12 @@ script:
       description: Tags of the Kerberos user
       type: String
   - arguments:
-    - description: true/false
+    - auto: PREDEFINED
+      description: Export state
       name: export
+      predefined:
+      - true
+      - false
     name: gcenter103-yara-rules-get
     description: Get Yara settings
     deprecated: false
@@ -1211,14 +1215,47 @@ script:
       name: yara_file
     - description: The Yara source file
       name: yara_source_file
-    - description: true/false
+    - auto: PREDEFINED
+      description: Export state
       name: export
+      predefined:
+      - true
+      - false
     name: gcenter103-yara-rules-add
     description: Add Yara rules to Malcore
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Yara.Rules.Add
       description: The updated Yara settings
+      type: String
+  - arguments:
+    - auto: PREDEFINED
+      description: Sort the results
+      name: ordering
+      predefined: 
+      - created
+      - sha256
+      - user
+      - -created
+      - -sha256
+      - -user
+    - description: A page to select in the results set 
+      name: page
+    - description: Number of results per page
+      name: page_size
+    - auto: PREDEFINED
+      description: The type of list given
+      name: list_type
+      predefined:
+      - white
+      - black
+      required: true
+    name: gcenter103-malcore-fingerprints-get
+    description: Get fingerprints of the white or black list of Malcore
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Malcore.Fingerprints.Get
+      description: Hash list informations
       type: String
   - arguments:
     - description: The SHA256 to add
@@ -1228,8 +1265,12 @@ script:
       name: comment
     - description: Name of the threat for reference (100 chars max)
       name: threat
-    - description: The type of list given, possible values are 'white', 'black'
+    - auto: PREDEFINED
+      description: The type of list given
       name: list_type
+      predefined:
+      - white
+      - black
       required: true
     name: gcenter103-malcore-fingerprints-add
     description: Add fingerprints to white or black list to Malcore
@@ -1237,6 +1278,24 @@ script:
     outputs:
     - contextPath: Gatewatcher.Malcore.Fingerprints.Add
       description: Hash list informations
-      type: string
+      type: String
+  - arguments:
+    - description: The SHA256 to remove
+      name: sha256
+      required: true
+    - auto: PREDEFINED
+      description: The type of list to remove from
+      name: list_type
+      predefined:
+      - white
+      - black
+      required: true
+    name: gcenter103-malcore-fingerprints-remove
+    description: Remove fingerprints to white or black list to Malcore
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Malcore.Fingerprints.Remove
+      description: Hash list informations
+      type: String
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier
