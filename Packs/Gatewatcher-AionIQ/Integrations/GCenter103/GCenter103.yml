@@ -472,22 +472,37 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Tags.Get
       description: The tags associated to the Kerberos user
-      type: string
+      type: String
   - arguments:
-    - description: List of tags to update of a Kerberos user
+    - description: List of tags to add or update of a Kerberos user
       name: tags
       required: true
       isArray: true
-    - description: Kerberos user name to get tags of
+    - description: Kerberos user name to add tags of
       name: kuser_name
       required: true
-    name: gcenter103-users-tags-update
-    description: Update the tags of a Kerberos user
+    name: gcenter103-users-tags-add
+    description: Add or update the tags of a Kerberos user
     deprecated: false
     outputs:
-    - contextPath: Gatewatcher.Users.Tags.Update
-      description: The updated tags associated to the Kerberos user
-      type: string
+    - contextPath: Gatewatcher.Users.Tags.Add
+      description: Added/updated tags associated to the Kerberos user
+      type: String
+  - arguments:
+    - description: List of tags to remove of a Kerberos user
+      name: tags
+      required: true
+      isArray: true
+    - description: Kerberos user name to remove tags of
+      name: kuser_name
+      required: true
+    name: gcenter103-users-tags-remove
+    description: Remove tags of a Kerberos user
+    deprecated: false
+    outputs:
+    - contextPath: Gatewatcher.Users.Tags.Remove
+      description: Tags of the Kerberos user
+      type: String
   - arguments:
     - description: Set Yara enabled or not with true/false
       name: status

@@ -1249,6 +1249,19 @@ def gcenter103_assets_tags_add(client: GwClient, args: dict[str, Any]) -> Comman
             data['tags'].append({'id': int(tags[i])})
 
     try:        
+        req = client._get(endpoint="/api/v1/assets/"+params['asset_name']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+  
+    res = req.json()
+    
+    for i in range(0,len(res['tags'])):
+    
+        data['tags'].append(res['tags'][i])
+    
+    try:        
         req = client._put(endpoint="/api/v1/assets/"+params['asset_name']+"/tags", json_data=data)
         if req.status_code != 200:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
@@ -1509,7 +1522,7 @@ def gcenter103_users_tags_get(client: GwClient, args: dict[str, Any]) -> Command
    )
 
 
-def gcenter103_users_tags_update(client: GwClient, args: dict[str, Any]) -> CommandResults:
+def gcenter103_users_tags_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
         "tags": args.get("tags"),
@@ -1524,6 +1537,18 @@ def gcenter103_users_tags_update(client: GwClient, args: dict[str, Any]) -> Comm
             data['tags'].append({'id': int(tags[i])})
 
     try:        
+        req = client._get(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+
+    for i in range(0,len(res['tags'])):
+        data['tags'].append(res['tags'][i])
+
+    try:        
         req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags", json_data=data)
         if req.status_code != 200:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
@@ -1533,8 +1558,67 @@ def gcenter103_users_tags_update(client: GwClient, args: dict[str, Any]) -> Comm
     res = req.json()
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-users-tags-update",res['tags']),
-       outputs_prefix="Gatewatcher.Users.Tags.Update",
+       readable_output=tableToMarkdown("gcenter103-users-tags-add",res['tags']),
+       outputs_prefix="Gatewatcher.Users.Tags.Add",
+   )
+
+
+def gcenter103_users_tags_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
+
+    params = {
+        "kuser_name": args.get("kuser_name"),
+        "tags": args.get("tags")
+    }
+
+    data = {"tags": []}
+    tags = params['tags'].split(',')
+
+    if len(tags) > 0:    
+        for i in range(0, len(tags)):
+            data['tags'].append({'id': int(tags[i])})
+
+    try:        
+        req = client._get(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+  
+    res = req.json()
+    data2 = {"tags": []}
+    
+    r = []
+    b = []
+    for i in range(0, len(data['tags'])):
+        r.append(data['tags'][i]['id'])
+
+    for i in range(0, len(res['tags'])):
+        b.append(res['tags'][i]['id'])
+
+    r.sort()
+    b.sort()
+
+    l = []
+
+    for i in b:
+        if i not in r:
+            l.append(i) 
+
+    for i in range(0,len(l)):
+        data2['tags'].append({'id': int(l[i])})
+    
+    try:        
+        req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags", json_data=data2)
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+
+    res = req.json()
+    
+    return CommandResults(
+       readable_output=tableToMarkdown("gcenter103-users-tags-remove", res['tags']),
+       outputs_prefix="Gatewatcher.Users.Tags.Remove"
    )
 
 
@@ -2322,10 +2406,17 @@ def main() -> None:
                     client=client,
                     args=args)
             )
-        elif command == "gcenter103-users-tags-update":
+        elif command == "gcenter103-users-tags-add":
             client: GwClient = gw_client_auth(params=params)
             return_results( # noqa: F405
-                gcenter103_users_tags_update(
+                gcenter103_users_tags_add(
+                    client=client,
+                    args=args)
+            )
+        elif command == "gcenter103-users-tags-remove":
+            client: GwClient = gw_client_auth(params=params)
+            return_results( # noqa: F405
+                gcenter103_users_tags_remove(
                     client=client,
                     args=args)
             )
