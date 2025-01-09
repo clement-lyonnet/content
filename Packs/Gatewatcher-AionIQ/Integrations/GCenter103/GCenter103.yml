@@ -1105,10 +1105,18 @@ script:
       name: date_from
     - description: ISO-8601 date format 
       name: date_to
-    - description: 15d, yesterday, ... | Not compatible with date_from and date_to parameters 
+    - auto: PREDEFINED
+      description: Not compatible with date_from and date_to parameters 
       name: since
-    - description: true/false  
+      predefined:
+      - 15d
+      - yesterday
+    - auto: PREDEFINED
+      description: Activate fast query 
       name: fast
+      predefined:
+      - true
+      - false
     - description: Alerts of this Kerberos user name   
       name: kuser_name
       required: true
@@ -1118,7 +1126,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Get
       description: Get informations of a Kerberos user
-      type: string
+      type: String
   - arguments:
     - description: Note content to add/update
       name: note
