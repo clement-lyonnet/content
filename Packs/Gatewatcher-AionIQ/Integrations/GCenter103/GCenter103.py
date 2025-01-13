@@ -1368,7 +1368,9 @@ def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) 
         "list_type": args.get("list_type")
     }
 
-    data = {"sha256": params['sha256']}
+    data = {"sha256": params['sha256'],
+            "comment": "",
+            "threat": "undefined"}
      
     if params['comment'] is not None:
         data['comment'] = params['comment']
@@ -1377,8 +1379,8 @@ def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) 
         data['threat'] = params['threat']
         
     try:        
-        req = client._post(endpoint="/api/v1/malcore/hash-"+params["list_type"]+"-list", json_data=data)
-        if req.status_code != 204:
+        req = client._post(endpoint="/api/v1/malcore/hash-"+params["list_type"]+"-list/", json_data=data)
+        if req.status_code != 201:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
     except Exception as e:
         raise Exception(f"Exception: {str(e)}")   
@@ -1386,7 +1388,7 @@ def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) 
     res = req.json()
 
     return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-malcore-fingerprints-add",res['results']),
+       readable_output=tableToMarkdown("gcenter103-malcore-fingerprints-add",res),
        outputs_prefix="Gatewatcher.Malcore.Fingerprints.Add",
    )
 
@@ -1408,7 +1410,7 @@ def gcenter103_malcore_fingerprints_remove(client: GwClient, args: dict[str, Any
     return CommandResults(
        readable_output="# gcenter103-malcore-fingerprints-remove\n"\
            "## Hash: "+params['sha256']+"\n"+
-       "## Sucessfully deleted from "+
+           "## Sucessfully deleted from "+
        params['list_type']+
        " list",
        outputs_prefix="Gatewatcher.Malcore.Fingerprints.Remove",
