@@ -1271,7 +1271,6 @@ script:
       predefined:
       - white
       - black
-      required: true
     name: gcenter103-malcore-fingerprints-add
     description: Add fingerprints to white or black list to Malcore
     deprecated: false

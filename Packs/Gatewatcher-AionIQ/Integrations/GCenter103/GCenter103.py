@@ -1345,7 +1345,7 @@ def gcenter103_malcore_fingerprints_get(client: GwClient, args: dict[str, Any]) 
     del params['list_type']
     
     try:        
-        req = client._post(endpoint="/api/v1/malcore/hash-"+list_type+"-list", params=params)
+        req = client._get(endpoint="/api/v1/malcore/hash-"+list_type+"-list", params=params)
         if req.status_code != 200:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
     except Exception as e:
@@ -1368,19 +1368,17 @@ def gcenter103_malcore_fingerprints_add(client: GwClient, args: dict[str, Any]) 
         "list_type": args.get("list_type")
     }
 
-    data = {"sha256": params['sha256'],
-            "comment": "",
-            "threat": ""}
-    
+    data = {"sha256": params['sha256']}
+     
     if params['comment'] is not None:
         data['comment'] = params['comment']
 
     if params['threat'] is not None:
         data['threat'] = params['threat']
-    
+        
     try:        
-        req = client._post(endpoint="/api/v1/malcore/hash-"+params['list_type']+"-list", json_data=data)
-        if req.status_code != 201:
+        req = client._post(endpoint="/api/v1/malcore/hash-"+params["list_type"]+"-list", json_data=data)
+        if req.status_code != 204:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
     except Exception as e:
         raise Exception(f"Exception: {str(e)}")   
