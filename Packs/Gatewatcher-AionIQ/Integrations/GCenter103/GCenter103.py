@@ -1486,7 +1486,6 @@ def gcenter103_malcore_fingerprints_get(client: GwClient, args: dict[str, Any]) 
     params = {
         "ordering": args.get("ordering"),
         "page": args.get("page"),
-        "page_size": args.get("page_size"),
         "list_type": args.get("list_type")
     }
 

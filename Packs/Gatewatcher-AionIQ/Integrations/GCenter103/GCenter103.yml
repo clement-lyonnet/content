@@ -1259,8 +1259,6 @@ script:
       - -user
     - description: A page to select in the results set 
       name: page
-    - description: Number of results per page
-      name: page_size
     - auto: PREDEFINED
       description: The type of list given
       name: list_type
