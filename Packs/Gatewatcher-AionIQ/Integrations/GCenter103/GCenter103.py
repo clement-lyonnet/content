@@ -1452,22 +1452,22 @@ def gcenter103_yara_rules_add(client: GwClient, args: dict[str, Any]) -> Command
 
     params = {
         "status": args.get("status"),
-        "yara_file": args.get("yara_file"),
-        "yara_source_file": args.get("yara_source_file"),
-        "export": args.get("export")
+        "filename": args.get("filename")
     }
 
     data = {"enabled": params['status'],
-            "filename": params['yara_source_file'],
-            "file": params['yara_file']
+            "filename": params['filename'],
+            "file": ""
             }
 
-    del params['status']
-    del params['yara_file']
-    del params['yara_source_file']
+    demisto.log("Make sure to upload the yara file before execution of the command and select 'Mark as note'")
+    last_file_idx = len(demisto.context()['File'])
+    fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
+    
+    data['file'] = open(fp_d['path'],'r').read()
 
     try:        
-        req = client._put(endpoint="/api/v1/malcore/yara/settings", json_data=data, params=params)
+        req = client._put(endpoint="/api/v1/malcore/yara/settings/", json_data=data)
         if req.status_code != 200:
             raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
     except Exception as e:

@@ -1226,21 +1226,18 @@ script:
       description: The Yara settings
       type: String
   - arguments:
-    - description: Set Yara enabled or not with true/false
+    - auto: PREDEFINED
+      description: Set Yara enabled or not 
       name: status
       required: true
-    - description: The Yara file 
-      name: yara_file
-    - description: The Yara source file
-      name: yara_source_file
-    - auto: PREDEFINED
-      description: Export state
-      name: export
       predefined:
       - true
       - false
+    - description: The Yara filename
+      name: filename
+      required: true
     name: gcenter103-yara-rules-add
-    description: Add Yara rules to Malcore
+    description: Add Yara rules to Malcore. Upload the yara file before and 'Mark it as note'
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Yara.Rules.Add
