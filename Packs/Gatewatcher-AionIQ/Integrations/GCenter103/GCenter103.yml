@@ -619,7 +619,7 @@ script:
     - description: Number of results per page
       name: page_size
     - auto: PREDEFINED
-      description: Activate fast query 
+      description: The fast mode uses cached data to present faster results. Disabled by default
       name: fast
       predefined:
       - true
@@ -803,7 +803,7 @@ script:
       - 15d
       - yesterday
     - auto: PREDEFINED
-      description: Activate fast query 
+      description: The fast mode uses cached data to present faster results. Disabled by default 
       name: fast
       predefined:
       - true
@@ -909,7 +909,7 @@ script:
       - 15d
       - yesterday
     - auto: PREDEFINED
-      description: Activate fast query 
+      description: The fast mode uses cached data to present faster results. Disabled by default 
       name: fast
       predefined:
       - true
@@ -1123,7 +1123,7 @@ script:
       - 15d
       - yesterday
     - auto: PREDEFINED
-      description: Activate fast query 
+      description: The fast mode uses cached data to present faster results. Disabled by default 
       name: fast
       predefined:
       - true
