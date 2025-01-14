@@ -584,8 +584,7 @@ def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> C
         "date_from": args.get("date_from"),
         "date_to": args.get("date_to"),
         "since": args.get("since"),
-        "ids": args.get("ids"),
-        "excluded_ids": args.get("excluded_ids"),
+        "uuid": args.get("uuid"),
         "acknowledged": args.get("acknowledged"),
         "gcap_id": args.get("gcap_id"),
         "ip": args.get("ip"),
@@ -608,7 +607,8 @@ def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> C
         "note": args.get("note"),
         "state": args.get("state"),
         "search": args.get("search"),
-        "action": args.get("action")
+        "action": args.get("action"),
+        "ids": 0
     }
 
     data = {"note": "",
@@ -620,10 +620,21 @@ def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> C
         for i in range(0, len(tags)):
             data['tag'].append(int(tags[i]))
 
+    try:        
+        req = client._get(endpoint="/api/v1/alerts/"+params['uuid'])
+        if req.status_code != 200:
+            raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")
+ 
+    res = req.json()
+    params['ids'] = res['id']
+    
     action = params['action']
     del params['action']
     del params['note_u']
     del params['tag_u']
+    del params['uuid']
     
     try:        
         req = client._put(endpoint="/api/v1/alerts/action/"+action, json_data=data, params=params)

@@ -347,12 +347,9 @@ script:
       predefined:
       - 15d
       - yesterday
-    - description: List of alerts IDs
-      name: ids
-      isArray: true
-    - description: List of alerts IDs to exclude
-      name: excluded_ids
-      isArray: true
+    - description: UUID of the alert to perform action (corresponds to event.id field)
+      name: uuid
+      required: true
     - auto: PREDEFINED
       description: filter on acknowledgement status
       name: acknowledged
