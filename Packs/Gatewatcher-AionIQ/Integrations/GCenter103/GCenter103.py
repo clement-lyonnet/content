@@ -383,24 +383,56 @@ def gcenter103_alerts_note_add(client: GwClient, args: dict[str, str]) -> Comman
 
     params = {
         "note": args.get("note"),
-        "uuid": args.get("uuid")
+        "uuid": args.get("uuid"),
+        "overwrite": args.get("overwrite")
     }
 
-    data = {"note": params['note']}
-    
-    try:        
-        req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/note",data=data)
-        if req.status_code != 200:
-            raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
-    except Exception as e:
-        raise Exception(f"Exception: {str(e)}")
-  
-    res = req.json()
+    if params['overwrite'] == "true":
 
-    return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-alerts-note-add", res),
-       outputs_prefix="Gatewatcher.Alerts.Note.Add"
-   )
+        data = {"note": params['note']}
+        
+        try:        
+            req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/note",data=data)
+            if req.status_code != 200:
+                raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")
+      
+        res = req.json()
+
+        return CommandResults(
+           readable_output=tableToMarkdown("gcenter103-alerts-note-add", res),
+           outputs_prefix="Gatewatcher.Alerts.Note.Add"
+       )
+
+    else:
+
+        try:        
+            req = client._get(endpoint="/api/v1/alerts/"+params['uuid'])
+            if req.status_code != 200:
+                raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")
+     
+        res = req.json()
+        old_note = res['note']
+        if old_note is None:
+            old_note = ""
+        data = {"note": old_note+"\n"+params['note']}
+        
+        try:        
+            req = client._put(endpoint="/api/v1/alerts/"+params['uuid']+"/note", json_data=data)
+            if req.status_code != 200:
+                raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")
+      
+        res = req.json()
+
+        return CommandResults(
+           readable_output=tableToMarkdown("gcenter103-alerts-note-add", res),
+           outputs_prefix="Gatewatcher.Alerts.Note.Add"
+       )
 
 
 def gcenter103_alerts_note_remove(client: GwClient, args: dict[str, str]) -> CommandResults:
@@ -824,24 +856,56 @@ def gcenter103_assets_note_add(client: GwClient, args: dict[str, Any]) -> Comman
 
     params = {
         "note": args.get("note"),
-        "asset_name": args.get("asset_name")
+        "asset_name": args.get("asset_name"),
+        "overwrite": args.get("overwrite")
     }
 
-    data = {"note": params['note']}
+    if params['overwrite'] == "true":
 
-    try:        
-        req = client._put(endpoint="/api/v1/assets/"+params['asset_name']+"/note", json_data=data)
-        if req.status_code != 200:
-            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
-    except Exception as e:
-        raise Exception(f"Exception: {str(e)}")   
+        data = {"note": params['note']}
 
-    res = req.json()
+        try:        
+            req = client._put(endpoint="/api/v1/assets/"+params['asset_name']+"/note", json_data=data)
+            if req.status_code != 200:
+                raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")   
 
-    return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-assets-note-add",res),
-       outputs_prefix="Gatewatcher.Assets.Note.Add",
-   )
+        res = req.json()
+
+        return CommandResults(
+           readable_output=tableToMarkdown("gcenter103-assets-note-add",res),
+           outputs_prefix="Gatewatcher.Assets.Note.Add",
+       )
+
+    else:
+
+        try:        
+            req = client._get(endpoint="/api/v1/assets/"+params['asset_name'])
+            if req.status_code != 200:
+                raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")   
+
+        res = req.json()
+        old_note = res['note']
+        if old_note is None:
+            old_note = ""
+        data = {"note": old_note+"\n"+params['note']}
+        
+        try:        
+            req = client._put(endpoint="/api/v1/assets/"+params['asset_name']+"/note", json_data=data)
+            if req.status_code != 200:
+                raise Exception(f"Request failed: {req.status_code}: {req.reason}, {req.json()}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")
+      
+        res = req.json()
+
+        return CommandResults(
+           readable_output=tableToMarkdown("gcenter103-assets-note-add", res),
+           outputs_prefix="Gatewatcher.Assets.Note.Add"
+       )
 
 
 def gcenter103_assets_note_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
@@ -1112,24 +1176,56 @@ def gcenter103_users_note_add(client: GwClient, args: dict[str, Any]) -> Command
 
     params = {
         "note": args.get("note"),
-        "kuser_name": args.get("kuser_name")
+        "kuser_name": args.get("kuser_name"),
+        "overwrite": args.get("overwrite")
     }
 
-    data = {"note": params['note']}
-    
-    try:        
-        req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/note", json_data=data)
-        if req.status_code != 200:
-            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
-    except Exception as e:
-        raise Exception(f"Exception: {str(e)}")   
+    if params['overwrite'] == "true":
+        
+        data = {"note": params['note']}
+        
+        try:        
+            req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/note", json_data=data)
+            if req.status_code != 200:
+                raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")   
 
-    res = req.json()
+        res = req.json()
 
-    return CommandResults(
-       readable_output=tableToMarkdown("gcenter103-users-note-add",res),
-       outputs_prefix="Gatewatcher.Users.Note.Add",
-   )
+        return CommandResults(
+           readable_output=tableToMarkdown("gcenter103-users-note-add",res),
+           outputs_prefix="Gatewatcher.Users.Note.Add",
+       )
+
+    else:
+        
+        try:        
+            req = client._get(endpoint="/api/v1/kusers/"+params['kuser_name'])
+            if req.status_code != 200:
+                raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")   
+
+        res = req.json()
+        old_note = res['note']
+        if old_note is None:
+            old_note = ""
+        data = {"note": old_note+"\n"+params['note']}
+        
+        try:        
+            req = client._put(endpoint="/api/v1/kusers/"+params['kuser_name']+"/note", json_data=data)
+            if req.status_code != 200:
+                raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+        except Exception as e:
+            raise Exception(f"Exception: {str(e)}")   
+
+        res = req.json()
+
+        return CommandResults(
+           readable_output=tableToMarkdown("gcenter103-users-note-add",res),
+           outputs_prefix="Gatewatcher.Users.Note.Add",
+       )       
 
 
 def gcenter103_users_note_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:

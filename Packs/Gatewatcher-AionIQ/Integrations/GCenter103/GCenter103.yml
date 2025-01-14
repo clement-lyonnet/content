@@ -265,6 +265,13 @@ script:
     - description: The UUID of the alert to set the note on (corresponds to event.id field)
       name: uuid
       required: true
+    - auto: PREDEFINED
+      description: Overwrite the note or not
+      name: overwrite
+      required: true
+      predefined: 
+      - true
+      - false
     name: gcenter103-alerts-note-add
     description: Add or update a note to an alert
     deprecated: false
@@ -821,6 +828,13 @@ script:
     - description: Note to update
       name: note
       required: true
+    - auto: PREDEFINED
+      description: Overwrite the note or not
+      name: overwrite
+      required: true
+      predefined: 
+      - true
+      - false
     name: gcenter103-assets-note-add
     description: Add or update a note to an asset
     deprecated: false
@@ -1134,6 +1148,13 @@ script:
     - description: Kerberos user name
       name: kuser_name
       required: true
+    - auto: PREDEFINED
+      description: Overwrite the note or not
+      name: overwrite
+      required: true
+      predefined: 
+      - true
+      - false
     name: gcenter103-users-note-add
     description: Add or update the note of a Kerberos user
     deprecated: false
