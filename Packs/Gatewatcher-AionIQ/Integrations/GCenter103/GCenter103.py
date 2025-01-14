@@ -1335,11 +1335,11 @@ def gcenter103_users_tags_add(client: GwClient, args: dict[str, Any]) -> Command
     }
 
     data = {"tags": []}
+    tags_gcenter = check_tags(client=client, tags_args=params['tags'])
     tags = params['tags'].split(',')
+    tags = match_tags(arg_tags=tags, gcenter_tags=tags_gcenter)
 
-    if len(tags) > 0:    
-        for i in range(0, len(tags)):
-            data['tags'].append({'id': int(tags[i])})
+    data['tags'] = tags
 
     try:        
         req = client._get(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags")
@@ -1376,11 +1376,11 @@ def gcenter103_users_tags_remove(client: GwClient, args: dict[str, Any]) -> Comm
     }
 
     data = {"tags": []}
+    tags_gcenter = check_tags(client=client, tags_args=params['tags'])
     tags = params['tags'].split(',')
+    tags = match_tags(arg_tags=tags, gcenter_tags=tags_gcenter)
 
-    if len(tags) > 0:    
-        for i in range(0, len(tags)):
-            data['tags'].append({'id': int(tags[i])})
+    data['tags'] = tags
 
     try:        
         req = client._get(endpoint="/api/v1/kusers/"+params['kuser_name']+"/tags")
