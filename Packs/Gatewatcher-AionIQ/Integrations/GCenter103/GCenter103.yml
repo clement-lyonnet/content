@@ -248,11 +248,11 @@ script:
       description: List of alerts
       type: String
   - arguments:
-    - description: id of the alert
-      name: id
+    - description: UUID or GCenter ID of the alert
+      name: uuid
       required: true
     name: gcenter103-alerts-get
-    description: Get an alert with its id (corresponds to event.id field)
+    description: Get an alert with its UUID (corresponds to event.id field) or the GCenter ID of the alert
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Alerts.Get
@@ -262,8 +262,8 @@ script:
     - description: The note to set on the alert
       name: note
       required: true
-    - description: The id of the alert to set the note on (corresponds to event.id field)
-      name: id
+    - description: The UUID of the alert to set the note on (corresponds to event.id field)
+      name: uuid
       required: true
     name: gcenter103-alerts-note-add
     description: Add or update a note to an alert
@@ -273,8 +273,8 @@ script:
       description: The note added to the alert
       type: String
   - arguments:
-    - description: The id of the alert to delete the note on (corresponds to event.id field)
-      name: id
+    - description: The UUID of the alert to delete the note on (corresponds to event.id field)
+      name: uuid
       required: true
     name: gcenter103-alerts-note-remove
     description: Delete the note of an alert
@@ -284,8 +284,8 @@ script:
       description: The request response code
       type: String
   - arguments:
-    - description: The id of the alert to get tags (corresponds to event.id field) 
-      name: id
+    - description: The UUID of the alert to get tags (corresponds to event.id field) 
+      name: uuid
       required: true
     name: gcenter103-alerts-tags-get
     description: Get the tags of an alert
@@ -295,8 +295,8 @@ script:
       description: The tags of the alert
       type: String
   - arguments:
-    - description: The id of the alert to add tags (corresponds to event.id field) 
-      name: id
+    - description: The UUID of the alert to add tags (corresponds to event.id field) 
+      name: uuid
       required: true
     - description: A list of tags ids to add to the alert (tags ids starts from 1) 
       name: tags
@@ -310,8 +310,8 @@ script:
       description: The tags added to the alert
       type: String
   - arguments:
-    - description: The id of the alert to remove tags (corresponds to event.id field) 
-      name: id
+    - description: The UUID of the alert to remove tags (corresponds to event.id field) 
+      name: uuid
       required: true
     - description: A list of tags ids to remove to the alert (tags ids starts from 1) 
       name: tags
@@ -492,25 +492,25 @@ script:
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Alerts.Status.Update
-      description: test
+      description: The updated status of alerts
       type: String
   - arguments:
-    - description: id of the alert to fetch (corresponds to event.id field) 
-      name: id
+    - description: UUID of the alert to fetch (corresponds to event.id field) 
+      name: uuid
       required: true
     name: gcenter103-raw-alerts-get
-    description: Get a raw alert with its id
+    description: Get a raw alert with its UUID
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Raw.Alerts.Get
       description: The alert content
       type: String
   - arguments:
-    - description: id of the alert to fetch (corresponds to event.id field) 
-      name: id
+    - description: UUID of the alert to fetch (corresponds to event.id field) 
+      name: uuid
       required: true
     name: gcenter103-raw-alerts-file-get
-    description: Get a file attached to an alert with its id
+    description: Get a file attached to an alert (with its UUID
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Raw.Alerts.File.Get

@@ -361,7 +361,7 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
 def gcenter103_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
-        "uuid": args.get("id")
+        "uuid": args.get("uuid")
     }
 
     try:        
@@ -383,7 +383,7 @@ def gcenter103_alerts_note_add(client: GwClient, args: dict[str, str]) -> Comman
 
     params = {
         "note": args.get("note"),
-        "uuid": args.get("id")
+        "uuid": args.get("uuid")
     }
 
     data = {"note": params['note']}
@@ -406,7 +406,7 @@ def gcenter103_alerts_note_add(client: GwClient, args: dict[str, str]) -> Comman
 def gcenter103_alerts_note_remove(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
-        "uuid": args.get("id")
+        "uuid": args.get("uuid")
     }
 
     try:        
@@ -425,7 +425,7 @@ def gcenter103_alerts_note_remove(client: GwClient, args: dict[str, str]) -> Com
 def gcenter103_alerts_tags_get(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "uuid": args.get("id")
+        "uuid": args.get("uuid")
     }
 
     try:        
@@ -446,7 +446,7 @@ def gcenter103_alerts_tags_get(client: GwClient, args: dict[str, Any]) -> Comman
 def gcenter103_alerts_tags_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "uuid": args.get("id"),
+        "uuid": args.get("uuid"),
         "tags": args.get("tags")
     }
 
@@ -488,7 +488,7 @@ def gcenter103_alerts_tags_add(client: GwClient, args: dict[str, Any]) -> Comman
 def gcenter103_alerts_tags_remove(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "uuid": args.get("id"),
+        "uuid": args.get("uuid"),
         "tags": args.get("tags")
     }
 
@@ -609,7 +609,7 @@ def gcenter103_alerts_status_update(client: GwClient, args: dict[str, Any]) -> C
 def gcenter103_raw_alerts_get(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
-        "id": args.get("id")
+        "id": args.get("uuid")
     }
     
     try:        
@@ -630,7 +630,7 @@ def gcenter103_raw_alerts_get(client: GwClient, args: dict[str, str]) -> Command
 def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
-        "id": args.get("id")
+        "id": args.get("uuid")
     }
 
     try:        
