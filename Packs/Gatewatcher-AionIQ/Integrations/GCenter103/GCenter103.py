@@ -1015,11 +1015,11 @@ def gcenter103_assets_tags_add(client: GwClient, args: dict[str, Any]) -> Comman
     }
 
     data = {"tags": []}
+    tags_gcenter = check_tags(client=client, tags_args=params['tags'])
     tags = params['tags'].split(',')
+    tags = match_tags(arg_tags=tags, gcenter_tags=tags_gcenter)
 
-    if len(tags) > 0:    
-        for i in range(0, len(tags)):
-            data['tags'].append({'id': int(tags[i])})
+    data['tags'] = tags
 
     try:        
         req = client._get(endpoint="/api/v1/assets/"+params['asset_name']+"/tags")
@@ -1057,11 +1057,11 @@ def gcenter103_assets_tags_remove(client: GwClient, args: dict[str, Any]) -> Com
     }
 
     data = {"tags": []}
+    tags_gcenter = check_tags(client=client, tags_args=params['tags'])
     tags = params['tags'].split(',')
+    tags = match_tags(arg_tags=tags, gcenter_tags=tags_gcenter)
 
-    if len(tags) > 0:    
-        for i in range(0, len(tags)):
-            data['tags'].append({'id': int(tags[i])})
+    data['tags'] = tags
 
     try:        
         req = client._get(endpoint="/api/v1/assets/"+params['asset_name']+"/tags", json_data=data)
