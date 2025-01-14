@@ -475,6 +475,48 @@ def gcenter103_alerts_tags_get(client: GwClient, args: dict[str, Any]) -> Comman
    )
 
 
+def get_tags(client: GwClient) -> list[dict[str, Any]]:
+    
+    try:        
+        req = client._get(endpoint="/api/v1/tags/")
+        if req.status_code != 200:
+            raise Exception(f"Request error: {req.status_code}: {req.reason}, {req.content}")
+    except Exception as e:
+        raise Exception(f"Exception: {str(e)}")   
+   
+    res = req.json()
+    tags =[]
+
+    for i in range(0, len(res['results'])):
+        tags.append({"id": res['results'][i]['id'], "label": res['results'][i]['label']})
+    
+    return tags
+
+
+def check_tags(client: GwClient, tags_args: list[str]) -> list[dict[str, Any]]:
+    
+    tags = get_tags(client=client)
+    tags_l = ""
+    for i in range(0, len(tags)):
+        tags_l += tags[i]['label']+","
+
+    for tag in tags_args:
+        if tag not in str(tags_l):
+            raise Exception("Tag not found on the GCenter")
+
+    return tags
+
+def match_tags(arg_tags: list[str], gcenter_tags: list[dict[str, Any]]):
+   
+    tags = []
+     
+    for tag in arg_tags:
+        for i in range(0, len(gcenter_tags)):
+            if tag == gcenter_tags[i]['label']:
+                tags.append({"id": int(gcenter_tags[i]['id'])})
+                
+    return tags            
+
 def gcenter103_alerts_tags_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
@@ -483,11 +525,11 @@ def gcenter103_alerts_tags_add(client: GwClient, args: dict[str, Any]) -> Comman
     }
 
     data = {"tags": []}
+    tags_gcenter = check_tags(client=client, tags_args=params['tags'])
     tags = params['tags'].split(',')
+    tags = match_tags(arg_tags=tags, gcenter_tags=tags_gcenter)
 
-    if len(tags) > 0:    
-        for i in range(0, len(tags)):
-            data['tags'].append({'id': int(tags[i])})
+    data['tags'] = tags
 
     try:        
         req = client._get(endpoint="/api/v1/alerts/"+params['uuid']+"/tags")
@@ -525,11 +567,11 @@ def gcenter103_alerts_tags_remove(client: GwClient, args: dict[str, Any]) -> Com
     }
 
     data = {"tags": []}
+    tags_gcenter = check_tags(client=client, tags_args=params['tags'])
     tags = params['tags'].split(',')
+    tags = match_tags(arg_tags=tags, gcenter_tags=tags_gcenter)
 
-    if len(tags) > 0:    
-        for i in range(0, len(tags)):
-            data['tags'].append({'id': int(tags[i])})
+    data['tags'] = tags
 
     try:        
         req = client._get(endpoint="/api/v1/alerts/"+params['uuid']+"/tags")
