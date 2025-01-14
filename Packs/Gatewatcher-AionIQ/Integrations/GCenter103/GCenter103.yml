@@ -305,7 +305,7 @@ script:
     - description: The UUID of the alert to add tags (corresponds to event.id field) 
       name: uuid
       required: true
-    - description: A list of tags ids to add to the alert (tags ids starts from 1) 
+    - description: A list of tags names to add to the alert
       name: tags
       required: true
       isArray: true  
@@ -320,7 +320,7 @@ script:
     - description: The UUID of the alert to remove tags (corresponds to event.id field) 
       name: uuid
       required: true
-    - description: A list of tags ids to remove to the alert (tags ids starts from 1) 
+    - description: A list of tags names to remove from the alert 
       name: tags
       required: true
       isArray: true  
@@ -865,7 +865,7 @@ script:
     - description: Asset name
       name: asset_name
       required: true
-    - description: Tags
+    - description: A list of tags names to add to the asset
       name: tags
       isArray: true
       required: true
@@ -880,7 +880,7 @@ script:
     - description: Asset name
       name: asset_name
       required: true
-    - description: Tags
+    - description: A list of tags names to remove from the asset 
       name: tags
       isArray: true
       required: true
@@ -1182,7 +1182,7 @@ script:
       description: The tags associated to the Kerberos user
       type: String
   - arguments:
-    - description: List of tags to add or update of a Kerberos user
+    - description: A list of tags names to add to the Kerberos user
       name: tags
       required: true
       isArray: true
@@ -1197,7 +1197,7 @@ script:
       description: Added/updated tags associated to the Kerberos user
       type: String
   - arguments:
-    - description: List of tags to remove of a Kerberos user
+    - description: A list of tags names to remove from the Kerberos user
       name: tags
       required: true
       isArray: true
