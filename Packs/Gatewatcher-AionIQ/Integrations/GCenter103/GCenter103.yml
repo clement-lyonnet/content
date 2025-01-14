@@ -93,9 +93,9 @@ script:
   isfetch: true
   commands:
   - arguments:
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -337,9 +337,9 @@ script:
     - description: Tags to add/update
       name: tag_u
       isArray: true
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -548,9 +548,9 @@ script:
       description: Result of the file scan
       type: String
   - arguments:
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -636,9 +636,9 @@ script:
       description: List of assets 
       type: String
   - arguments:
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -792,9 +792,9 @@ script:
       description: Get alerts for an asset
       type: String
   - arguments:
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -898,9 +898,9 @@ script:
       name: page
     - description: Number of results per page
       name: page_size
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format 
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -956,9 +956,9 @@ script:
       description: The list of Kerberos users
       type: String
   - arguments:
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format 
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
@@ -1112,9 +1112,9 @@ script:
       description: The list of alerts of a Kerberos user
       type: String
   - arguments:
-    - description: ISO-8601 date format 
+    - description: Starting date filter. ISO-8601 date format  
       name: date_from
-    - description: ISO-8601 date format 
+    - description: Ending data filter. ISO-8601 date format
       name: date_to
     - auto: PREDEFINED
       description: Not compatible with date_from and date_to parameters 
