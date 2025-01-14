@@ -530,7 +530,7 @@ script:
       - powershell
       - shellcode
     name: gcenter103-file-scan
-    description: Scan a file on a selected engine 
+    description: Scan a file on a selected engine. You must provide an attached file 'Marked as note' is the WarRoom
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.File.Scan
