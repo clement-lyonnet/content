@@ -740,13 +740,16 @@ def gcenter103_raw_alerts_file_get(client: GwClient, args: dict[str, str]) -> Co
 def gcenter103_file_scan(client: GwClient, args: dict[str, str]) -> CommandResults:
 
     params = {
-        "engine": args.get("engine")
+        "engine": args.get("engine"),
+        "filename": args.get("filename")
     }
 
-    demisto.log("Make sure to upload the file to scan before execution of the command and select 'Mark as note'")
     last_file_idx = len(demisto.context()['File'])
+
+    if demisto.context()['File'][last_file_idx-1]['Name'] != params['filename'] or last_file_idx == 0:
+        return CommandResults(readable_output="# gcenter103-file-scan\n## File not found, make sure to upload the file to scan before execution of the command")
+       
     fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
-    
     files = {"file": open(fp_d['path'],'rb')}
 
     try:        
@@ -1451,19 +1454,21 @@ def gcenter103_yara_rules_get(client: GwClient, args: dict[str, Any]) -> Command
 def gcenter103_yara_rules_add(client: GwClient, args: dict[str, Any]) -> CommandResults:
 
     params = {
-        "status": args.get("status"),
+        "enabled": args.get("enabled"),
         "filename": args.get("filename")
     }
 
-    data = {"enabled": params['status'],
+    data = {"enabled": params['enabled'],
             "filename": params['filename'],
             "file": ""
             }
 
-    demisto.log("Make sure to upload the yara file before execution of the command and select 'Mark as note'")
     last_file_idx = len(demisto.context()['File'])
+
+    if demisto.context()['File'][last_file_idx-1]['Name'] != params['filename'] or last_file_idx == 0:
+        return CommandResults(readable_output="# gcenter103-yara-rules-add\n## File not found, make sure to upload the file to scan before execution of the command")
+       
     fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
-    
     data['file'] = open(fp_d['path'],'r').read()
 
     try:        

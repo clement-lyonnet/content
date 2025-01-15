@@ -514,7 +514,7 @@ script:
       name: uuid
       required: true
     name: gcenter103-raw-alerts-file-get
-    description: Get a file attached to an alert (with its UUID
+    description: Get a file attached to an alert with its UUID
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Raw.Alerts.File.Get
@@ -529,8 +529,11 @@ script:
       - malcore
       - powershell
       - shellcode
+    - description: The filename of the previous uploaded file to scan
+      name: filename
+      required: true
     name: gcenter103-file-scan
-    description: Scan a file on a selected engine. You must provide an attached file 'Marked as note' is the WarRoom
+    description: Scan a file on a selected engine. You must upload the file to scan before execution
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.File.Scan
@@ -1227,17 +1230,17 @@ script:
       type: String
   - arguments:
     - auto: PREDEFINED
-      description: Set Yara enabled or not 
-      name: status
+      description: Set if Yara is enabled or not 
+      name: enabled
       required: true
       predefined:
       - true
       - false
-    - description: The Yara filename
+    - description: The Yara filename uploaded before execution
       name: filename
       required: true
     name: gcenter103-yara-rules-add
-    description: Add Yara rules to Malcore. Upload the yara file before and 'Mark it as note'
+    description: Add Yara rules to Malcore. You must upload the yara file before execution
     deprecated: false
     outputs:
     - contextPath: Gatewatcher.Yara.Rules.Add
@@ -1278,9 +1281,11 @@ script:
       name: comment
     - description: Name of the threat for reference (100 chars max)
       name: threat
+      required: true
     - auto: PREDEFINED
       description: The type of list given
       name: list_type
+      required: true
       predefined:
       - white
       - black
