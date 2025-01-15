@@ -529,8 +529,8 @@ script:
       - malcore
       - powershell
       - shellcode
-    - description: The filename of the previous uploaded file to scan
-      name: filename
+    - description: Entry ID of the file to scan
+      name: entryID
       required: true
     name: gcenter103-file-scan
     description: Scan a file on a selected engine. You must upload the file to scan before execution
@@ -1236,8 +1236,11 @@ script:
       predefined:
       - true
       - false
-    - description: The Yara filename uploaded before execution
-      name: filename
+    - description: Name of the Yara ruleset
+      name: name
+      required: true
+    - description: EntryID of the Yara file
+      name: entryID
       required: true
     name: gcenter103-yara-rules-add
     description: Add Yara rules to Malcore. You must upload the yara file before execution

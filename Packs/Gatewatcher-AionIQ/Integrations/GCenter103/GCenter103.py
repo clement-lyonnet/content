@@ -741,15 +741,10 @@ def gcenter103_file_scan(client: GwClient, args: dict[str, str]) -> CommandResul
 
     params = {
         "engine": args.get("engine"),
-        "filename": args.get("filename")
+        "entryID": args.get("entryID")
     }
-
-    last_file_idx = len(demisto.context()['File'])
-
-    if demisto.context()['File'][last_file_idx-1]['Name'] != params['filename'] or last_file_idx == 0:
-        return CommandResults(readable_output="# gcenter103-file-scan\n## File not found, make sure to upload the file to scan before execution of the command")
        
-    fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
+    fp_d = demisto.getFilePath(params['entryID'])
     files = {"file": open(fp_d['path'],'rb')}
 
     try:        
@@ -1455,20 +1450,16 @@ def gcenter103_yara_rules_add(client: GwClient, args: dict[str, Any]) -> Command
 
     params = {
         "enabled": args.get("enabled"),
-        "filename": args.get("filename")
+        "name": args.get("name"),
+        "entryID": args.get("entryID")
     }
 
     data = {"enabled": params['enabled'],
-            "filename": params['filename'],
+            "filename": params['name'],
             "file": ""
             }
 
-    last_file_idx = len(demisto.context()['File'])
-
-    if demisto.context()['File'][last_file_idx-1]['Name'] != params['filename'] or last_file_idx == 0:
-        return CommandResults(readable_output="# gcenter103-yara-rules-add\n## File not found, make sure to upload the file to scan before execution of the command")
-       
-    fp_d = demisto.getFilePath(demisto.context()['File'][last_file_idx-1]['EntryID'])
+    fp_d = demisto.getFilePath(params['entryID'])
     data['file'] = open(fp_d['path'],'r').read()
 
     try:        
