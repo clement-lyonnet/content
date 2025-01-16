@@ -244,9 +244,9 @@ script:
     description: List all alerts
     deprecated: false
     outputs:
-    - contextPath: Gatewatcher.Alerts.List
-      description: List of alerts
-      type: String
+    - contextPath: Gatewatcher.Alerts.List.uuid
+      description: Alerts UUIDs
+      type: string
   - arguments:
     - description: UUID or GCenter ID of the alert
       name: uuid
@@ -257,7 +257,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Get
       description: The alert fetched
-      type: String
+      type: string
   - arguments:
     - description: The note to set on the alert
       name: note
@@ -278,7 +278,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Note.Add
       description: The note added to the alert
-      type: String
+      type: string
   - arguments:
     - description: The UUID of the alert to delete the note on (corresponds to event.id field)
       name: uuid
@@ -289,7 +289,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Note.Remove
       description: The request response code
-      type: String
+      type: string
   - arguments:
     - description: The UUID of the alert to get tags (corresponds to event.id field) 
       name: uuid
@@ -300,7 +300,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Tags.Get
       description: The tags of the alert
-      type: String
+      type: string
   - arguments:
     - description: The UUID of the alert to add tags (corresponds to event.id field) 
       name: uuid
@@ -315,7 +315,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Tags.Add
       description: The tags added to the alert
-      type: String
+      type: string
   - arguments:
     - description: The UUID of the alert to remove tags (corresponds to event.id field) 
       name: uuid
@@ -330,7 +330,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Tags.Remove
       description: The tags present in the alert
-      type: String
+      type: string
   - arguments:
     - description: A note to add/update
       name: note_u
@@ -497,7 +497,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Alerts.Status.Update
       description: The updated status of alerts
-      type: String
+      type: string
   - arguments:
     - description: UUID of the alert to fetch (corresponds to event.id field) 
       name: uuid
@@ -508,7 +508,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Raw.Alerts.Get
       description: The alert content
-      type: String
+      type: string
   - arguments:
     - description: UUID of the alert to fetch (corresponds to event.id field) 
       name: uuid
@@ -519,7 +519,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Raw.Alerts.File.Get
       description: The zip file
-      type: String
+      type: string
   - arguments:
     - auto: PREDEFINED
       description: Engine that will scan the file
@@ -538,7 +538,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.File.Scan
       description: Results of the scan
-      type: String
+      type: string
   - arguments:
     - description: id of a previous file scan
       name: id
@@ -549,7 +549,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.File.Scan.Result.Get
       description: Result of the file scan
-      type: String
+      type: string
   - arguments:
     - description: Starting date filter. ISO-8601 date format 
       name: date_from
@@ -637,7 +637,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.List
       description: List of assets 
-      type: String
+      type: string
   - arguments:
     - description: Starting date filter. ISO-8601 date format 
       name: date_from
@@ -793,7 +793,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Alerts.Get
       description: Get alerts for an asset
-      type: String
+      type: string
   - arguments:
     - description: Starting date filter. ISO-8601 date format 
       name: date_from
@@ -820,7 +820,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Get
       description: Asset data
-      type: String
+      type: string
   - arguments:
     - description: Asset name
       name: asset_name
@@ -841,7 +841,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Note.Add
       description: The note added or updated
-      type: String
+      type: string
   - arguments:
     - description: Asset name
       name: asset_name
@@ -852,7 +852,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Note.Remove
       description: The request response code 
-      type: String
+      type: string
   - arguments:
     - description: Asset name
       name: asset_name
@@ -863,7 +863,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Tags.Get
       description: The tags of the asset
-      type: String
+      type: string
   - arguments:
     - description: Asset name
       name: asset_name
@@ -878,7 +878,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Tags.Add
       description: Added or updated tags of the asset
-      type: String
+      type: string
   - arguments:
     - description: Asset name
       name: asset_name
@@ -893,7 +893,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Assets.Tags.Remove
       description: Removed tags of the asset
-      type: String
+      type: string
   - arguments:
     - description: A search term
       name: search
@@ -957,7 +957,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.List
       description: The list of Kerberos users
-      type: String
+      type: string
   - arguments:
     - description: Starting date filter. ISO-8601 date format 
       name: date_from
@@ -1113,7 +1113,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Alerts.Get
       description: The list of alerts of a Kerberos user
-      type: String
+      type: string
   - arguments:
     - description: Starting date filter. ISO-8601 date format  
       name: date_from
@@ -1140,7 +1140,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Get
       description: Get informations of a Kerberos user
-      type: String
+      type: string
   - arguments:
     - description: Note content to add/update
       name: note
@@ -1161,7 +1161,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Note.Add
       description: Added/updated note
-      type: String
+      type: string
   - arguments:
     - description: Kerberos user name
       name: kuser_name
@@ -1172,7 +1172,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Note.Remove
       description: Request response code
-      type: String
+      type: string
   - arguments:
     - description: Kerberos user name to get tags of
       name: kuser_name
@@ -1183,7 +1183,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Tags.Get
       description: The tags associated to the Kerberos user
-      type: String
+      type: string
   - arguments:
     - description: A list of tags names to add to the Kerberos user
       name: tags
@@ -1198,7 +1198,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Tags.Add
       description: Added/updated tags associated to the Kerberos user
-      type: String
+      type: string
   - arguments:
     - description: A list of tags names to remove from the Kerberos user
       name: tags
@@ -1213,7 +1213,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Users.Tags.Remove
       description: Tags of the Kerberos user
-      type: String
+      type: string
   - arguments:
     - auto: PREDEFINED
       description: Export state
@@ -1227,7 +1227,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Yara.Rules.Get
       description: The Yara settings
-      type: String
+      type: string
   - arguments:
     - auto: PREDEFINED
       description: Set if Yara is enabled or not 
@@ -1248,7 +1248,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Yara.Rules.Add
       description: The updated Yara settings
-      type: String
+      type: string
   - arguments:
     - auto: PREDEFINED
       description: Sort the results
@@ -1275,7 +1275,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Malcore.Fingerprints.Get
       description: Hash list informations
-      type: String
+      type: string
   - arguments:
     - description: The SHA256 to add
       name: sha256
@@ -1298,7 +1298,7 @@ script:
     outputs:
     - contextPath: Gatewatcher.Malcore.Fingerprints.Add
       description: Hash list informations
-      type: String
+      type: string
   - arguments:
     - description: The SHA256 to remove
       name: sha256
@@ -1316,6 +1316,6 @@ script:
     outputs:
     - contextPath: Gatewatcher.Malcore.Fingerprints.Remove
       description: Hash list informations
-      type: String
+      type: string
 fromversion: 6.5.0
 defaultclassifier: Gatewatcher Incidents Classifier

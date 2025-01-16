@@ -352,9 +352,20 @@ def gcenter103_alerts_list(client: GwClient, args: dict[str, Any]) -> CommandRes
            outputs_prefix="Gatewatcher.Alerts.List"
        ) 
 
+    res_keys = []
+    
+    for i in range(0, len(res['results'])):
+    
+        res_keys.append({
+            "uuid": res['results'][i]['uuid'] 
+        })
+
     return CommandResults(
        readable_output=tableToMarkdown("gcenter103-alerts-list", res['results']),
-       outputs_prefix="Gatewatcher.Alerts.List"
+       outputs_prefix="Gatewatcher.Alerts.List",
+       outputs_key_field="uuid",
+       outputs=res_keys,
+       raw_response=res
    ) 
 
 
