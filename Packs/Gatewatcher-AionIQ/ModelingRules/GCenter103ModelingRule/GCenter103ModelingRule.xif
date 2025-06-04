@@ -1,0 +1,39 @@
+[MODEL: dataset="gatewatcher_aioniq_gcenter103_raw"]
+
+/* mapping global */
+// alter xdm.event.type = gatewatcher_event_type
+ alter xdm.event.type = "NETWORK"
+| alter xdm.event.original_event_type = event_kind 
+| alter xdm.event.tags = arraycreate(XDM_CONST.EVENT_TAG_NETWORK)
+| alter xdm.event.outcome = XDM_CONST.OUTCOME_UNKNOWN
+| alter xdm.alert.subcategory = sigflow_category 
+| alter xdm.network.application_protocol = if(network_protocol = "http", "web-browsing")
+| alter xdm.alert.severity = to_string(event_severity)
+| alter xdm.alert.name = sigflow_signature 
+
+/* mapping observer*/
+| alter xdm.observer.name = observer_hostname
+
+/* mapping source */
+| alter xdm.source.port = source_port 
+| alter xdm.source.ipv4 = source_ip
+| alter xdm.source.user_agent = http_http_user_agent
+
+/*mapping dest*/
+| alter xdm.target.port = to_number(destination_port)
+| alter xdm.target.ipv4 = destination_ip
+| alter xdm.target.url = http_url
+| alter xdm.target.domain = if(network_protocol  = "http", http_hostname,  network_protocol = "dns", dns_answers->name)
+
+
+/* Mapping XDM champs et methode HTTP*/
+| alter xdm.network.http.domain = http_hostname 
+| alter xdm.network.http.response_code = http_response->status
+| alter xdm.network.http.method =  if(http_request->method = "ACL", XDM_CONST.HTTP_METHOD_ACL, http_request->method = "BASELINE_CONTROL", XDM_CONST.HTTP_METHOD_BASELINE_CONTROL, http_request->method = "BIND", XDM_CONST.HTTP_METHOD_BIND, http_request->method = "CHECKIN", XDM_CONST.HTTP_METHOD_CHECKIN, http_request->method= "CHECKOUT", XDM_CONST.HTTP_METHOD_CHECKOUT, http_request->method= "CONNECT", XDM_CONST.HTTP_METHOD_CONNECT, http_request->method= "COPY", XDM_CONST.HTTP_METHOD_COPY, http_request->method= "DELETE", XDM_CONST.HTTP_METHOD_DELETE, http_request->method= "GET", XDM_CONST.HTTP_METHOD_GET, http_request->method= "HEAD", XDM_CONST.HTTP_METHOD_HEAD, http_request->method= "LABEL", XDM_CONST.HTTP_METHOD_LABEL, http_request->method= "LINK", XDM_CONST.HTTP_METHOD_LINK, http_request->method= "LOCK", XDM_CONST.HTTP_METHOD_LOCK, http_request->method= "MERGE", XDM_CONST.HTTP_METHOD_MERGE, http_request->method= "MKACTIVITY", XDM_CONST.HTTP_METHOD_MKACTIVITY, http_request->method= "MKCALENDAR", XDM_CONST.HTTP_METHOD_MKCALENDAR, http_request->method= "MKCOL", XDM_CONST.HTTP_METHOD_MKCOL, http_request->method= "MKREDIRECTREF", XDM_CONST.HTTP_METHOD_MKREDIRECTREF, http_request->method= "MKWORKSPACE", XDM_CONST.HTTP_METHOD_MKWORKSPACE, http_request->method= "MOVE", XDM_CONST.HTTP_METHOD_MOVE, http_request->method= "OPTIONS", XDM_CONST.HTTP_METHOD_OPTIONS, http_request->method= "ORDERPATCH", XDM_CONST.HTTP_METHOD_ORDERPATCH, http_request->method= "PATCH", XDM_CONST.HTTP_METHOD_PATCH, http_request->method= "POST", XDM_CONST.HTTP_METHOD_POST, http_request->method= "PRI", XDM_CONST.HTTP_METHOD_PRI, http_request->method= "PROPFIND", XDM_CONST.HTTP_METHOD_PROPFIND, http_request->method= "PROPPATCH", XDM_CONST.HTTP_METHOD_PROPPATCH, http_request->method= "PUT", XDM_CONST.HTTP_METHOD_PUT, http_request->method= "REBIND", XDM_CONST.HTTP_METHOD_REBIND, http_request->method= "REPORT", XDM_CONST.HTTP_METHOD_REPORT, http_request->method= "SEARCH", XDM_CONST.HTTP_METHOD_SEARCH, http_request->method= "TRACE", XDM_CONST.HTTP_METHOD_TRACE, http_request->method= "UNBIND", XDM_CONST.HTTP_METHOD_UNBIND, http_request->method= "UNCHECKOUT", XDM_CONST.HTTP_METHOD_UNCHECKOUT, http_request->method= "UNLINK", XDM_CONST.HTTP_METHOD_UNLINK, http_request->method= "UNLOCK", XDM_CONST.HTTP_METHOD_UNLOCK, http_request->method= "UPDATE", XDM_CONST.HTTP_METHOD_UPDATE, http_request->method= "UPDATEREDIRECTREF", XDM_CONST.HTTP_METHOD_UPDATEREDIRECTREF, http_request->method= "VERSION_CONTROL", XDM_CONST.HTTP_METHOD_VERSION_CONTROL, http_request->method= null, null, to_string(http_request->method))
+
+/* Mapping TLS*/
+| alter xdm.network.tls.server_name = tls_sni 
+| alter xdm.network.tls.server_ja3 = tls_ja3  
+
+/* Mapping XDM IP protocol*/
+| alter xdm.network.ip_protocol = if(network_transport ="udp", XDM_CONST.IP_PROTOCOL_UDP, network_transport="tcp", XDM_CONST.IP_PROTOCOL_TCP);
