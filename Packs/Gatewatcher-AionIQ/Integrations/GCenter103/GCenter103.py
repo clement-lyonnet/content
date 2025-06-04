@@ -676,7 +676,7 @@ def gcenter103_assets_get_command(client: GwClient, args: dict[str, Any]) -> Com
     res = req.json()
 
     return CommandResults(
-        readable_output=tableToMarkdown("gcenter103-assets-alerts-get", res),
+        readable_output=tableToMarkdown("gcenter103-assets-get", res),
         outputs_prefix="Gatewatcher.Assets.Get",
     )
 
