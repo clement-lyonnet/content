@@ -1,3 +1,1520 @@
 {
-    "gatewatcher_aioniq_gcenter103_raw": {}
+    "gatewatcher_gcenter_raw": {
+        "dns_aa": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "dns_answers": {
+            "type": "json",
+            "is_array": false
+        },
+        "dns_authorities": {
+            "type": "json",
+            "is_array": true
+        },
+        "dns_flags": {
+            "type": "string",
+            "is_array": false
+        },
+        "dns_grouped": {
+            "type": "json",
+            "is_array": false
+        },
+        "dns_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "dns_qr": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "dns_query": {
+            "type": "json",
+            "is_array": false
+        },
+        "dns_ra": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "dns_rd": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "dns_response_code": {
+            "type": "string",
+            "is_array": false
+        },
+        "dns_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "dns_version": {
+            "type": "int",
+            "is_array": false
+        },
+        "http_accept": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_accept_encoding": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_accept_language": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_age": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_authorization": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_cache_control": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_connection": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_content_encoding": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_cookie": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_date": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "http_dnt": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_hostname": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_http_port": {
+            "type": "int",
+            "is_array": false
+        },
+        "http_http_refer": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_http_response_body": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_http_response_body_printable": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_http_user_agent": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_http2": {
+            "type": "json",
+            "is_array": false
+        },
+        "http_last_modified": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_location": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_pragma": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_redirect": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_request_headers": {
+            "type": "json",
+            "is_array": true
+        },
+        "http_request": {
+            "type": "json",
+            "is_array": false
+        },
+        "http_response_headers": {
+            "type": "json",
+            "is_array": true
+        },
+        "http_response": {
+            "type": "json",
+            "is_array": false
+        },
+        "http_server": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_set_cookie": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_transfer_encoding": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_url": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_vary": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_www_authenticate": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_x_flash_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "http_x_requested_with": {
+            "type": "string",
+            "is_array": false
+        },
+        "http2_http_method": {
+            "type": "string",
+            "is_array": false
+        },
+        "http2_http_user_agent": {
+            "type": "string",
+            "is_array": false
+        },
+        "http2_http2": {
+            "type": "json",
+            "is_array": false
+        },
+        "http2_length": {
+            "type": "int",
+            "is_array": false
+        },
+        "http2_request_headers": {
+            "type": "json",
+            "is_array": true
+        },
+        "http2_response_headers": {
+            "type": "json",
+            "is_array": true
+        },
+        "http2_status": {
+            "type": "int",
+            "is_array": false
+        },
+        "http2_url": {
+            "type": "string",
+            "is_array": false
+        },
+        "http2_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "tls_client": {
+            "type": "json",
+            "is_array": false
+        },
+        "tls_ja3": {
+            "type": "json",
+            "is_array": false
+        },
+        "tls_ja3s": {
+            "type": "json",
+            "is_array": false
+        },
+        "tls_serial": {
+            "type": "string",
+            "is_array": false
+        },
+        "tls_server": {
+            "type": "json",
+            "is_array": false
+        },
+        "tls_sni": {
+            "type": "string",
+            "is_array": false
+        },
+        "tls_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "smtp_helo": {
+            "type": "string",
+            "is_array": false
+        },
+        "smtp_mail_from": {
+            "type": "string",
+            "is_array": false
+        },
+        "smtp_rcpt_to": {
+            "type": "string",
+            "is_array": true
+        },
+        "smb_access": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_accessed": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_changed": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_client_dialects": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_client_guid": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_command": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_created": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_dcerpc": {
+            "type": "json",
+            "is_array": false
+        },
+        "smb_dialect": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_directory": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_disposition": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_filename": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_fuid": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_function": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_kerberos": {
+            "type": "json",
+            "is_array": false
+        },
+        "smb_max_read_size": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_max_write_size": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_modified": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_named_pipe": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_ntmlssp": {
+            "type": "json",
+            "is_array": false
+        },
+        "smb_rename": {
+            "type": "json",
+            "is_array": false
+        },
+        "smb_server_guid": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_session_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_set_info": {
+            "type": "json",
+            "is_array": false
+        },
+        "smb_share": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_share_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_size": {
+            "type": "int",
+            "is_array": false
+        },
+        "smb_status": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_status_code": {
+            "type": "string",
+            "is_array": false
+        },
+        "smb_tree_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "nfs_filename": {
+            "type": "string",
+            "is_array": false
+        },
+        "nfs_file_tx": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "nfs_hhash": {
+            "type": "string",
+            "is_array": false
+        },
+        "nfs_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "nfs_procedure": {
+            "type": "string",
+            "is_array": false
+        },
+        "nfs_read": {
+            "type": "json",
+            "is_array": false
+        },
+        "nfs_rename": {
+            "type": "json",
+            "is_array": false
+        },
+        "nfs_status": {
+            "type": "string",
+            "is_array": false
+        },
+        "nfs_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "nfs_version": {
+            "type": "int",
+            "is_array": false
+        },
+        "nfs_write": {
+            "type": "json",
+            "is_array": false
+        },
+        "ftp_command": {
+            "type": "string",
+            "is_array": false
+        },
+        "ftp_command_data": {
+            "type": "string",
+            "is_array": false
+        },
+        "ftp_command_truncated": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "ftp_completion_code": {
+            "type": "string",
+            "is_array": true
+        },
+        "ftp_dynamic_port": {
+            "type": "int",
+            "is_array": false
+        },
+        "ftp_reply": {
+            "type": "string",
+            "is_array": true
+        },
+        "ftp_reply_received": {
+            "type": "string",
+            "is_array": false
+        },
+        "ftp_reply_truncated": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tftp_file": {
+            "type": "string",
+            "is_array": false
+        },
+        "tftp_mode": {
+            "type": "string",
+            "is_array": false
+        },
+        "tftp_packet": {
+            "type": "string",
+            "is_array": false
+        },
+        "ssh_client": {
+            "type": "json",
+            "is_array": false
+        },
+        "ssh_server": {
+            "type": "json",
+            "is_array": false
+        },
+        "krb5_cname": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_encryption": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_error_code": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_failed_request": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_msg_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_realm": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_sname": {
+            "type": "string",
+            "is_array": false
+        },
+        "krb5_weak_encryption": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "dhcp_assigned_ip": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_client_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_client_ip": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_client_mac": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_dhcp_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_dns_servers": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_hostname": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "dhcp_lease_time": {
+            "type": "int",
+            "is_array": false
+        },
+        "dhcp_next_server_ip": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_relay_ip": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_routers": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_subnet_mask": {
+            "type": "string",
+            "is_array": false
+        },
+        "dhcp_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "snmp_community": {
+            "type": "string",
+            "is_array": false
+        },
+        "snmp_pdu_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "snmp_vars": {
+            "type": "string",
+            "is_array": false
+        },
+        "snmp_version": {
+            "type": "int",
+            "is_array": false
+        },
+        "rdp_channels": {
+            "type": "string",
+            "is_array": false
+        },
+        "rdp_client": {
+            "type": "json",
+            "is_array": false
+        },
+        "rdp_cookie": {
+            "type": "string",
+            "is_array": false
+        },
+        "rdp_event_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "rdp_tx_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "rfb_authentication": {
+            "type": "json",
+            "is_array": false
+        },
+        "rfb_channel": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_client_protocol_version": {
+            "type": "json",
+            "is_array": false
+        },
+        "rfb_client": {
+            "type": "json",
+            "is_array": false
+        },
+        "rfb_cookie": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_error_code": {
+            "type": "int",
+            "is_array": false
+        },
+        "rfb_event_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_framebuffer": {
+            "type": "json",
+            "is_array": false
+        },
+        "rfb_protocol": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_reason": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_screen_shared": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "rfb_server_protocol_version": {
+            "type": "json",
+            "is_array": false
+        },
+        "rfb_server_security_failure_reason": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_server_supports": {
+            "type": "string",
+            "is_array": false
+        },
+        "rfb_tx_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "rfb_x509_serials": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_alg_auth": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_alg_dh": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_alg_enc": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_alg_esn": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_alg_perf": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_errors": {
+            "type": "int",
+            "is_array": false
+        },
+        "ikev2_exchange_type": {
+            "type": "int",
+            "is_array": false
+        },
+        "ikev2_init_spi": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_message_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "ikev2_notify": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_payload": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_resp_spi": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_role": {
+            "type": "string",
+            "is_array": false
+        },
+        "ikev2_version_major": {
+            "type": "int",
+            "is_array": false
+        },
+        "ikev2_version_minor": {
+            "type": "int",
+            "is_array": false
+        },
+        "sip_code": {
+            "type": "string",
+            "is_array": false
+        },
+        "sip_method": {
+            "type": "string",
+            "is_array": false
+        },
+        "sip_reason": {
+            "type": "string",
+            "is_array": false
+        },
+        "sip_request_line": {
+            "type": "string",
+            "is_array": false
+        },
+        "sip_response_line": {
+            "type": "string",
+            "is_array": false
+        },
+        "sip_uri": {
+            "type": "string",
+            "is_array": false
+        },
+        "sip_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "dnp3_application": {
+            "type": "json",
+            "is_array": false
+        },
+        "dnp3_control": {
+            "type": "json",
+            "is_array": false
+        },
+        "dnp3_dst": {
+            "type": "int",
+            "is_array": false
+        },
+        "dnp3_iin": {
+            "type": "json",
+            "is_array": false
+        },
+        "dnp3_src": {
+            "type": "int",
+            "is_array": false
+        },
+        "dnp3_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "dcerpc_call_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "dcerpc_interfaces": {
+            "type": "json",
+            "is_array": false
+        },
+        "dcerpc_req": {
+            "type": "json",
+            "is_array": false
+        },
+        "dcerpc_request": {
+            "type": "string",
+            "is_array": false
+        },
+        "dcerpc_res": {
+            "type": "json",
+            "is_array": false
+        },
+        "dcerpc_response": {
+            "type": "string",
+            "is_array": false
+        },
+        "dcerpc_rpc_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "mqtt_connack": {
+            "type": "json",
+            "is_array": false
+        },
+        "mqtt_pubcomp": {
+            "type": "json",
+            "is_array": false
+        },
+        "mqtt_publish": {
+            "type": "json",
+            "is_array": false
+        },
+        "mqtt_pubrec": {
+            "type": "json",
+            "is_array": false
+        },
+        "mqtt_pubrel": {
+            "type": "json",
+            "is_array": false
+        },
+        "metadata_flowbits": {
+            "type": "string",
+            "is_array": true
+        },
+        "beacon_active": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "beacon_hostname_resolution": {
+            "type": "string",
+            "is_array": false
+        },
+        "beacon_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "beacon_mean_time_interval": {
+            "type": "int",
+            "is_array": false
+        },
+        "beacon_possible_cnc": {
+            "type": "string",
+            "is_array": false
+        },
+        "beacon_session_count": {
+            "type": "int",
+            "is_array": false
+        },
+        "beacon_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "dga_dga_count": {
+            "type": "int",
+            "is_array": false
+        },
+        "dga_dga_ratio": {
+            "type": "int",
+            "is_array": false
+        },
+        "dga_malware_behavior_confidence": {
+            "type": "int",
+            "is_array": false
+        },
+        "dga_nx_domain_count": {
+            "type": "int",
+            "is_array": false
+        },
+        "dga_top_DGA": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_campaigns": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_case_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_categories": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_creation_date": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "ioc_description": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_external_links": {
+            "type": "json",
+            "is_array": true
+        },
+        "ioc_families": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_kill_chain_phases": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_meta_data": {
+            "type": "json",
+            "is_array": false
+        },
+        "ioc_package_date": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "ioc_relations": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_signature": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_tags": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_targeted_countries": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_targeted_organizations": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_targeted_platforms": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_targeted_sectors": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_threat_actor": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_tlp": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_ttp": {
+            "type": "string",
+            "is_array": true
+        },
+        "ioc_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_updated_date": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "ioc_usage_mode": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_value": {
+            "type": "string",
+            "is_array": false
+        },
+        "ioc_vulnerabilities": {
+            "type": "string",
+            "is_array": true
+        },
+        "malcore_analyzed_clean": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_analyzed_error": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_analyzed_infected": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_analyzed_other": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_analyzed_suspicious": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_analyzers_up": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_code": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_detail_scan_time": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_detail_threat_found": {
+            "type": "string",
+            "is_array": false
+        },
+        "malcore_detail_wait_time": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_engine_id": {
+            "type": "json",
+            "is_array": false
+        },
+        "malcore_engines_last_update_date": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "malcore_file_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "malcore_file_type_description": {
+            "type": "string",
+            "is_array": false
+        },
+        "malcore_magic_details": {
+            "type": "string",
+            "is_array": false
+        },
+        "malcore_processing_time": {
+            "type": "int",
+            "is_array": false
+        },
+        "malcore_reporting_token": {
+            "type": "string",
+            "is_array": false
+        },
+        "malcore_state": {
+            "type": "string",
+            "is_array": false
+        },
+        "malcore_total_found": {
+            "type": "string",
+            "is_array": false
+        },
+        "malicious_powershell_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "malicious_powershell_proba_obfuscated": {
+            "type": "int",
+            "is_array": false
+        },
+        "malicious_powershell_sample_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "malicious_powershell_score": {
+            "type": "int",
+            "is_array": false
+        },
+        "malicious_powershell_score_details": {
+            "type": "json",
+            "is_array": false
+        },
+        "matched_event_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_action": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_category": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_gid": {
+            "type": "int",
+            "is_array": false
+        },
+        "nba_metadata": {
+            "type": "json",
+            "is_array": false
+        },
+        "nba_packet": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_payload": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_payload_printable": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_rev": {
+            "type": "int",
+            "is_array": false
+        },
+        "nba_signature": {
+            "type": "string",
+            "is_array": false
+        },
+        "nba_signature_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "nba_stream": {
+            "type": "int",
+            "is_array": false
+        },
+        "ransomware_alert_threshold": {
+            "type": "int",
+            "is_array": false
+        },
+        "ransomware_malicious_behavior_confidence": {
+            "type": "int",
+            "is_array": false
+        },
+        "ransomware_session_score": {
+            "type": "int",
+            "is_array": false
+        },
+        "shellcode_analysis": {
+            "type": "json",
+            "is_array": true
+        },
+        "shellcode_encodings": {
+            "type": "json",
+            "is_array": true
+        },
+        "shellcode_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "shellcode_sample_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "shellcode_sub_type": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_action": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_category": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_gid": {
+            "type": "int",
+            "is_array": false
+        },
+        "sigflow_metadata": {
+            "type": "json",
+            "is_array": false
+        },
+        "sigflow_packet": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_packet_info": {
+            "type": "json",
+            "is_array": false
+        },
+        "sigflow_payload": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_payload_printable": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_rev": {
+            "type": "int",
+            "is_array": false
+        },
+        "sigflow_signature": {
+            "type": "string",
+            "is_array": false
+        },
+        "sigflow_signature_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "sigflow_stream": {
+            "type": "int",
+            "is_array": false
+        },
+        "file_file_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "file_gaps": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "file_hash": {
+            "type": "json",
+            "is_array": false
+        },
+        "file_magic": {
+            "type": "string",
+            "is_array": false
+        },
+        "file_name": {
+            "type": "string",
+            "is_array": false
+        },
+        "file_sid": {
+            "type": "int",
+            "is_array": false
+        },
+        "file_size": {
+            "type": "int",
+            "is_array": false
+        },
+        "file_state": {
+            "type": "string",
+            "is_array": false
+        },
+        "file_stored": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "file_tlsh": {
+            "type": "string",
+            "is_array": false
+        },
+        "file_tx_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "files_filename": {
+            "type": "string",
+            "is_array": false
+        },
+        "files_gaps": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "files_magic": {
+            "type": "string",
+            "is_array": false
+        },
+        "files_sha256": {
+            "type": "string",
+            "is_array": false
+        },
+        "files_sid": {
+            "type": "int",
+            "is_array": true
+        },
+        "files_size": {
+            "type": "int",
+            "is_array": false
+        },
+        "files_state": {
+            "type": "string",
+            "is_array": false
+        },
+        "files_stored": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "files_tx_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "tcp_ack": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_cwr": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_ecn": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_fin": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_psh": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_rst": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_syn": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_tch": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "tcp_tcp_flags": {
+            "type": "string",
+            "is_array": false
+        },
+        "flow_age": {
+            "type": "int",
+            "is_array": false
+        },
+        "flow_alerted": {
+            "type": "boolean",
+            "is_array": false
+        },
+        "flow_bytes_toclient": {
+            "type": "int",
+            "is_array": false
+        },
+        "flow_bytes_toserver": {
+            "type": "int",
+            "is_array": false
+        },
+        "flow_end": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "flow_pkts_toclient": {
+            "type": "int",
+            "is_array": false
+        },
+        "flow_pkts_toserver": {
+            "type": "int",
+            "is_array": false
+        },
+        "flow_reason": {
+            "type": "string",
+            "is_array": false
+        },
+        "flow_start": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "flow_state": {
+            "type": "string",
+            "is_array": false
+        },
+        "destination_ip": {
+            "type": "string",
+            "is_array": false
+        },
+        "destination_mac": {
+            "type": "string",
+            "is_array": false
+        },
+        "destination_port": {
+            "type": "int",
+            "is_array": false
+        },
+        "source_ip": {
+            "type": "string",
+            "is_array": false
+        },
+        "source_mac": {
+            "type": "string",
+            "is_array": false
+        },
+        "source_port": {
+            "type": "int",
+            "is_array": false
+        },
+        "url_domain": {
+            "type": "string",
+            "is_array": false
+        },
+        "url_full": {
+            "type": "string",
+            "is_array": false
+        },
+        "url_path": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_category": {
+            "type": "string",
+            "is_array": true
+        },
+        "event_created": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "event_dataset": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_end": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "event_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_kind": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_module": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_outcome": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_severity": {
+            "type": "int",
+            "is_array": false
+        },
+        "event_severity_human": {
+            "type": "string",
+            "is_array": false
+        },
+        "event_start": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "observer_gcap": {
+            "type": "json",
+            "is_array": false
+        },
+        "observer_hostname": {
+            "type": "string",
+            "is_array": false
+        },
+        "observer_log_format_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "observer_product": {
+            "type": "string",
+            "is_array": false
+        },
+        "observer_uuid": {
+            "type": "string",
+            "is_array": false
+        },
+        "observer_vendor": {
+            "type": "string",
+            "is_array": false
+        },
+        "observer_version": {
+            "type": "string",
+            "is_array": false
+        },
+        "network_community_id": {
+            "type": "string",
+            "is_array": false
+        },
+        "network_flow_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "network_protocol": {
+            "type": "string",
+            "is_array": false
+        },
+        "network_timestamp": {
+            "type": "datetime",
+            "is_array": false
+        },
+        "network_transport": {
+            "type": "string",
+            "is_array": false
+        },
+        "network_tx_id": {
+            "type": "int",
+            "is_array": false
+        },
+        "network_vlan": {
+            "type": "json",
+            "is_array": false
+        },
+        "ether_dest_macs": {
+            "type": "string",
+            "is_array": false
+        },
+        "ether_src_macs": {
+            "type": "string",
+            "is_array": false
+        }
+    }
 }
