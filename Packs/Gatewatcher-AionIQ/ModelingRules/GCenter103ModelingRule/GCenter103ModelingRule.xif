@@ -1,4 +1,4 @@
-[MODEL: dataset="gatewatcher_aioniq_gcenter103_raw"]
+[MODEL: dataset="gatewatcher_gcenter_raw"]
 
 /* mapping global */
 // alter xdm.event.type = gatewatcher_event_type
