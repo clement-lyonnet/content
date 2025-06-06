@@ -5,11 +5,11 @@
             "is_array": false
         },
         "dns_answers": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dns_authorities": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "dns_flags": {
@@ -17,7 +17,7 @@
             "is_array": false
         },
         "dns_grouped": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dns_id": {
@@ -29,7 +29,7 @@
             "is_array": false
         },
         "dns_query": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dns_ra": {
@@ -121,7 +121,7 @@
             "is_array": false
         },
         "http_http2": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "http_last_modified": {
@@ -141,19 +141,19 @@
             "is_array": false
         },
         "http_request_headers": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "http_request": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "http_response_headers": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "http_response": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "http_server": {
@@ -201,7 +201,7 @@
             "is_array": false
         },
         "http2_http2": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "http2_length": {
@@ -209,11 +209,11 @@
             "is_array": false
         },
         "http2_request_headers": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "http2_response_headers": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "http2_status": {
@@ -229,15 +229,15 @@
             "is_array": false
         },
         "tls_client": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "tls_ja3": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "tls_ja3s": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "tls_serial": {
@@ -245,7 +245,7 @@
             "is_array": false
         },
         "tls_server": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "tls_sni": {
@@ -297,7 +297,7 @@
             "is_array": false
         },
         "smb_dcerpc": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "smb_dialect": {
@@ -329,7 +329,7 @@
             "is_array": false
         },
         "smb_kerberos": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "smb_max_read_size": {
@@ -349,11 +349,11 @@
             "is_array": false
         },
         "smb_ntmlssp": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "smb_rename": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "smb_server_guid": {
@@ -365,7 +365,7 @@
             "is_array": false
         },
         "smb_set_info": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "smb_share": {
@@ -413,11 +413,11 @@
             "is_array": false
         },
         "nfs_read": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "nfs_rename": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "nfs_status": {
@@ -433,7 +433,7 @@
             "is_array": false
         },
         "nfs_write": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "ftp_command": {
@@ -481,11 +481,11 @@
             "is_array": false
         },
         "ssh_client": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "ssh_server": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "krb5_cname": {
@@ -597,7 +597,7 @@
             "is_array": false
         },
         "rdp_client": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "rdp_cookie": {
@@ -613,7 +613,7 @@
             "is_array": false
         },
         "rfb_authentication": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "rfb_channel": {
@@ -621,11 +621,11 @@
             "is_array": false
         },
         "rfb_client_protocol_version": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "rfb_client": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "rfb_cookie": {
@@ -641,7 +641,7 @@
             "is_array": false
         },
         "rfb_framebuffer": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "rfb_protocol": {
@@ -657,7 +657,7 @@
             "is_array": false
         },
         "rfb_server_protocol_version": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "rfb_server_security_failure_reason": {
@@ -765,11 +765,11 @@
             "is_array": false
         },
         "dnp3_application": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dnp3_control": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dnp3_dst": {
@@ -777,7 +777,7 @@
             "is_array": false
         },
         "dnp3_iin": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dnp3_src": {
@@ -793,11 +793,11 @@
             "is_array": false
         },
         "dcerpc_interfaces": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dcerpc_req": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dcerpc_request": {
@@ -805,7 +805,7 @@
             "is_array": false
         },
         "dcerpc_res": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "dcerpc_response": {
@@ -817,23 +817,23 @@
             "is_array": false
         },
         "mqtt_connack": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "mqtt_pubcomp": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "mqtt_publish": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "mqtt_pubrec": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "mqtt_pubrel": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "metadata_flowbits": {
@@ -909,7 +909,7 @@
             "is_array": false
         },
         "ioc_external_links": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "ioc_families": {
@@ -925,7 +925,7 @@
             "is_array": true
         },
         "ioc_meta_data": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "ioc_package_date": {
@@ -1033,7 +1033,7 @@
             "is_array": false
         },
         "malcore_engine_id": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "malcore_engines_last_update_date": {
@@ -1085,7 +1085,7 @@
             "is_array": false
         },
         "malicious_powershell_score_details": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "matched_event_id": {
@@ -1105,7 +1105,7 @@
             "is_array": false
         },
         "nba_metadata": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "nba_packet": {
@@ -1149,11 +1149,11 @@
             "is_array": false
         },
         "shellcode_analysis": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "shellcode_encodings": {
-            "type": "json",
+            "type": "string",
             "is_array": true
         },
         "shellcode_id": {
@@ -1181,7 +1181,7 @@
             "is_array": false
         },
         "sigflow_metadata": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "sigflow_packet": {
@@ -1189,7 +1189,7 @@
             "is_array": false
         },
         "sigflow_packet_info": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "sigflow_payload": {
@@ -1225,7 +1225,7 @@
             "is_array": false
         },
         "file_hash": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "file_magic": {
@@ -1453,7 +1453,7 @@
             "is_array": false
         },
         "observer_gcap": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "observer_hostname": {
@@ -1505,7 +1505,7 @@
             "is_array": false
         },
         "network_vlan": {
-            "type": "json",
+            "type": "string",
             "is_array": false
         },
         "ether_dest_macs": {
