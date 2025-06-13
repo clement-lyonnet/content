@@ -2,19 +2,23 @@
 alter xdm.observer.name = observer_hostname,
   xdm.observer.version = observer_version,
   xdm.observer.unique_identifier = observer_uuid,
+  xdm.observer.action = to_string(sigflow_signature_id),
 
   /* Mapping event */
-  xdm.event.type = "NETWORK",
+  xdm.event.id = event_id,
+  xdm.event.description = sigflow_signature,
+  xdm.event.type = event_kind,
+  xdm.event.operation_sub_type = event_module,
   xdm.event.original_event_type = event_kind,
-  xdm.event.tags = arraycreate(XDM_CONST.EVENT_TAG_NETWORK),
-  xdm.event.outcome = XDM_CONST.OUTCOME_UNKNOWN,
-
-  /* Mapping alert */
-  xdm.alert.name = sigflow_signature,
-  xdm.alert.original_threat_name = sigflow_signature,
-  xdm.alert.original_alert_id = to_string(sigflow_signature_id),
-  xdm.alert.severity = to_string(event_severity),
-  xdm.alert.subcategory = sigflow_category, 
+  xdm.event.tags = arraycreate(XDM_CONST.EVENT_TAG_NETWORK, event_kind, to_string(sigflow_signature_id)),
+  xdm.event.outcome = XDM_CONST.OUTCOME_SUCCESS,
+  xdm.event.is_completed = True,
+  xdm.event.log_level = if( 
+    event_severity = 1, XDM_CONST.LOG_LEVEL_CRITICAL,
+    event_severity = 2, XDM_CONST.LOG_LEVEL_ERROR,
+    event_severity = 3, XDM_CONST.LOG_LEVEL_WARNING,
+    event_severity = 4, XDM_CONST.LOG_LEVEL_INFORMATIONAL, 
+    XDM_CONST.LOG_LEVEL_INFORMATIONAL),
 
   /* Mapping source (required for stitching) */
   xdm.source.host.mac_addresses = arraycreate(source_mac),
@@ -31,8 +35,8 @@ alter xdm.observer.name = observer_hostname,
   
   /* Mapping XDM IP protocol (required for stitching) */
   xdm.network.ip_protocol = if(network_transport ="udp", XDM_CONST.IP_PROTOCOL_UDP, network_transport="tcp", XDM_CONST.IP_PROTOCOL_TCP),
-
   xdm.network.application_protocol = if(network_protocol = "http", "web-browsing"),
+  xdm.network.rule = concat("#",to_string(sigflow_signature_id), "# ", sigflow_signature),
 
   /* Mapping DNS */
   xdm.network.dns.is_response = to_boolean(dns_qr),
