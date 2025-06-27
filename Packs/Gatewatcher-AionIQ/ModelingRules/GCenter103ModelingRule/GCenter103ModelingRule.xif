@@ -2,19 +2,23 @@
 alter xdm.observer.name = observer_hostname,
   xdm.observer.version = observer_version,
   xdm.observer.unique_identifier = observer_uuid,
+  xdm.observer.action = to_string(sigflow_signature_id),
 
   /* Mapping event */
-  xdm.event.type = "NETWORK",
+  xdm.event.id = event_id,
+  xdm.event.description = sigflow_signature,
+  xdm.event.type = event_kind,
+  xdm.event.operation_sub_type = event_module,
   xdm.event.original_event_type = event_kind,
-  xdm.event.tags = arraycreate(XDM_CONST.EVENT_TAG_NETWORK),
-  xdm.event.outcome = XDM_CONST.OUTCOME_UNKNOWN,
-
-  /* Mapping alert */
-  xdm.alert.name = sigflow_signature,
-  xdm.alert.original_threat_name = sigflow_signature,
-  xdm.alert.original_alert_id = to_string(sigflow_signature_id),
-  xdm.alert.severity = to_string(event_severity),
-  xdm.alert.subcategory = sigflow_category, 
+  xdm.event.tags = arraycreate(XDM_CONST.EVENT_TAG_NETWORK, event_kind, to_string(sigflow_signature_id)),
+  xdm.event.outcome = XDM_CONST.OUTCOME_SUCCESS,
+  xdm.event.is_completed = True,
+  xdm.event.log_level = if( 
+    event_severity = 1, XDM_CONST.LOG_LEVEL_CRITICAL,
+    event_severity = 2, XDM_CONST.LOG_LEVEL_ERROR,
+    event_severity = 3, XDM_CONST.LOG_LEVEL_WARNING,
+    event_severity = 4, XDM_CONST.LOG_LEVEL_INFORMATIONAL, 
+    XDM_CONST.LOG_LEVEL_INFORMATIONAL),
 
   /* Mapping source (required for stitching) */
   xdm.source.host.mac_addresses = arraycreate(source_mac),
@@ -31,9 +35,11 @@ alter xdm.observer.name = observer_hostname,
   
   /* Mapping XDM IP protocol (required for stitching) */
   xdm.network.ip_protocol = if(network_transport ="udp", XDM_CONST.IP_PROTOCOL_UDP, network_transport="tcp", XDM_CONST.IP_PROTOCOL_TCP),
-
-  xdm.network.application_protocol = if(network_protocol = "http", "web-browsing"),
-
+  xdm.network.application_protocol = if(network_protocol = "http", "web-browsing",
+    network_protocol = "dns", "dns-base",
+    network_protocol = "krb5", "kerberos"),
+  xdm.network.rule = concat("#",to_string(sigflow_signature_id), "# ", sigflow_signature),
+  
   /* Mapping DNS */
   xdm.network.dns.is_response = to_boolean(dns_qr),
   xdm.network.dns.dns_question.name = dns_answers->name,
@@ -97,4 +103,32 @@ alter xdm.observer.name = observer_hostname,
   xdm.network.tls.server_certificate.issuer = tls_server->issuer,
   xdm.network.tls.server_certificate.subject = tls_server->subject,
   xdm.network.tls.server_name = coalesce(tls_client->server_name, tls_sni),
-  xdm.network.tls.server_ja3 = tls_ja3;
+  xdm.network.tls.server_ja3 = tls_ja3,
+  
+  /* Mapping KRB5*/
+  xdm.auth.kerberos_tgt.msg_type = if(krb5_msg_type = "KRB_AS_REQ", XDM_CONST.KERBEROS_MSG_TYPE_AS_REQ,
+    krb5_msg_type = "KRB_AS_REP", XDM_CONST.KERBEROS_MSG_TYPE_AS_REP),
+  xdm.auth.kerberos_tgt.cname_values = if(krb5_msg_type in ("KRB_AS_REQ", "KRB_AS_REP") and krb5_cname != "<empty>", arraycreate(krb5_cname)),
+  xdm.auth.kerberos_tgt.encryption_type = if(krb5_msg_type in ("KRB_AS_REQ", "KRB_AS_REP") and krb5_encryption = "rc4-hmac", XDM_CONST.KERBEROS_ENCRYPTION_TYPE_RC4_HMAC,
+    krb5_msg_type in ("KRB_AS_REQ", "KRB_AS_REP") and krb5_encryption = "aes256-cts-hmac-sha1-96", XDM_CONST.KERBEROS_ENCRYPTION_TYPE_AES256_CTS_HMAC_SHA1_96),
+  xdm.auth.kerberos_tgt.error_code = if(krb5_msg_type = """""" and krb5_error_code = """""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_NONE,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_BADOPTION""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_BADOPTION,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_CERTIFICATE_MISMATCH""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_CERTIFICATE_MISMATCH,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_CLIENT_NAME_MISMATCH""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_CLIENT_NAME_MISMATCH,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_CLIENT_REVOKED""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_CLIENT_REVOKED,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_C_PRINCIPAL_UNKNOWN""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_C_PRINCIPAL_UNKNOWN,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_ETYPE_NOSUPP""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_ETYPE_NOSUPP,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_KEY_EXPIRED""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_KEY_EXPIRED,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_PREAUTH_FAILED""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_PREAUTH_FAILED,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_PREAUTH_REQUIRED""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_PREAUTH_REQUIRED,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_S_PRINCIPAL_UNKNOWN""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_S_PRINCIPAL_UNKNOWN,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KDC_ERR_TGT_REVOKED""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_TGT_REVOKED,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KRB_AP_ERR_SKEW""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_AP_SKEW,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KRB_AP_ERR_TKT_EXPIRED""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_AP_TKT_EXPIRED,
+    krb5_msg_type = """KRB_ERROR""" and krb5_error_code = """KRB_ERR_RESPONSE_TOO_BIG""", XDM_CONST.KERBEROS_ERROR_CODE_ERR_KDC_RESPONSE_TOO_BIG),
+  xdm.auth.kerberos_tgs.msg_type = if(krb5_msg_type = "KRB_TGS_REQ", XDM_CONST.KERBEROS_MSG_TYPE_TGS_REQ,
+    krb5_msg_type = "KRB_TGS_REP", XDM_CONST.KERBEROS_MSG_TYPE_TGS_REP),
+  xdm.auth.kerberos_tgs.cname_values = if(krb5_msg_type in ("KRB_TGS_REQ", "KRB_TGS_REP") and krb5_cname != "<empty>", arraycreate(krb5_cname)),
+  xdm.auth.kerberos_tgs.spn_values = if(krb5_msg_type in ("KRB_TGS_REQ", "KRB_TGS_REP") and krb5_sname != "<empty>", arraycreate(krb5_sname)),
+  xdm.auth.kerberos_tgs.encryption_type = if(krb5_msg_type in ("KRB_TGS_REQ", "KRB_TGS_REP") and krb5_encryption = "rc4-hmac", XDM_CONST.KERBEROS_ENCRYPTION_TYPE_RC4_HMAC,
+    krb5_msg_type in ("KRB_TGS_REQ", "KRB_TGS_REP") and krb5_encryption = "aes256-cts-hmac-sha1-96", XDM_CONST.KERBEROS_ENCRYPTION_TYPE_AES256_CTS_HMAC_SHA1_96);
